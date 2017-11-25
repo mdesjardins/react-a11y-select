@@ -9,7 +9,7 @@ class Demo extends Component {
       <div>
         <h1>react-a11y-select Demo</h1>
 
-        <Select>
+        <Select label="Test method">
           <Option key="1" value="1">Option 1</Option>
           <Option key="2" value="2">Option <i>2</i></Option>
           <Option key="3" value="3">Option 3</Option>

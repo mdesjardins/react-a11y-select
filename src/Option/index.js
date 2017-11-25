@@ -18,7 +18,7 @@ export default class Option extends Component {
         className={highlighted ? 'highlighted' : ''}
         onMouseOver={onMouseOver}
         onClick={onClick}
-        role="option"
+        role="menuitem"
         id={id}
       >
         {this.props.children}

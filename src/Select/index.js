@@ -3,6 +3,23 @@ import Option from '../Option'
 import '../index.css'
 
 export default class Select extends Component {
+  static propTypes = {
+    label: (props, propName, componentName) => {
+      if (!props.label && !props.labelledBy) {
+        const msg = `One of props 'label' or 'labelledBy' was not specified in ${componentName}`
+        return new Error(msg)
+      }
+      return null
+    },
+    labelledBy: (props, propName, componentName) => {
+      const msg = `One of props 'label' or 'labelledBy' was not specified in ${componentName}`
+      if (!props.label && !props.labelledBy) {
+        return new Error(msg)
+      }
+      return null
+    },
+  }
+
   constructor() {
     super()
     this.state = {
@@ -11,7 +28,6 @@ export default class Select extends Component {
       highlightedIndex: -1,
       selectedValue: null, //TODO
     }
-    //this.optionKeys = []
     this.options = []
   }
 
@@ -30,27 +46,6 @@ export default class Select extends Component {
     })
     this.options = React.Children.toArray(indexedOptions).filter((child) => !!child)
   }
-
-  // componentWillMount() {
-  //   // can't use toArray here, it munges up the keys
-  //   // const children = React.Children.toArray(this.props.children)
-  //   // const options = children.filter((child) => child.type === Option)
-  //   const keys = React.Children.map(this.props.children, (child) => {
-  //     if (child.type === Option) {
-  //       return child.key
-  //     }
-  //     return null
-  //   })
-  //   this.optionKeys = keys.filter((key) => key !== null)
-
-  //   const children = React.Children.map(this.props.children, (child) => {
-  //     if (child.type === Option) {
-  //       return React.cloneElement(child)
-  //     }
-  //     return null
-  //   })
-  //   this.options = children.filter((child) => child !== null)
-  // }
 
   handleClick = (_e) => {
     const { open } = this.state
@@ -128,8 +123,8 @@ export default class Select extends Component {
     const { selectedIndex } = this.state
     if (selectedIndex === null) {
       return (
-        <span>
-          Selected <div role="presentation" className="arrow">&#x25be;</div>
+        <span role="button">
+          Selected <div className="arrow">&#x25be;</div>
         </span>
       )
     }
@@ -140,39 +135,33 @@ export default class Select extends Component {
     const { highlightedIndex, selectedIndex } = this.state
     const options = this.options.map((option) =>
       React.cloneElement(option, {
+        id: `option-${option.props.index}`,
         highlighted: (highlightedIndex === option.props.index ? true : undefined),
         selected: (selectedIndex === option.props.index),
         onMouseOver: (e) => this.handleOptionHover(e, option.props.index),
         onClick: (e) => this.handleOptionClick(e, option.props.index),
-        id: `option-${option.props.index}`,
       })
     )
     return <div>{options}</div>
   }
 
   render() {
-    const { selectedIndex } = this.state
+    const { open } = this.state
     return (
       <div
         className="ReactA11ySelect"
-        role="combobox"
-        aria-expanded="false"
-        aria-owns="owned_listbox"
-        aria-haspopup="listbox"
+        aria-expanded={open}
       >
         <div
           tabIndex="0"
           className={`button ${this.state.open ? 'open' : 'closed'}`}
           onClick={this.handleClick}
           onKeyDown={this.handleKeyDown}
-          aria-autocomplete="none"
-          aria-controls="owned_listbox"
-          aria-activedescendant={selectedIndex}
         >
           {this.renderButtonLabel()}
         </div>
         {this.state.open &&
-          <ul role="listbox" id="owned_listbox">
+          <ul role="menu" id="owned_listbox">
             {this.renderChildren()}
           </ul>}
       </div>
