@@ -5,8 +5,11 @@ module.exports = {
     umd: {
       global: 'ReactA11ySelect',
       externals: {
-        react: 'React'
-      }
-    }
-  }
+        react: 'React',
+      },
+    },
+  },
+  karma: {
+    testContext: 'tests/setup.js',
+  },
 }
