@@ -47,11 +47,30 @@ export default class Select extends Component {
     this.options = React.Children.toArray(indexedOptions).filter((child) => !!child)
   }
 
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside)
+  }
+
   handleClick = (_e) => {
     const { open } = this.state
     this.setState({
       open: !open,
     })
+  }
+
+  handleClickOutside = (e) => {
+    if (this.wrapperDiv && !this.wrapperDiv.contains(e.target)) {
+      const { open } = this.state
+      if (open) {
+        this.setState({
+          open: false,
+        })
+      }
+    }
   }
 
   handleKeyDown = (e) => {
@@ -151,6 +170,7 @@ export default class Select extends Component {
       <div
         className="ReactA11ySelect"
         aria-expanded={open}
+        ref={(wrapperDiv) => { this.wrapperDiv = wrapperDiv }}
       >
         <div
           tabIndex="0"

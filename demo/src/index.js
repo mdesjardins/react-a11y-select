@@ -7,19 +7,52 @@ class Demo extends Component {
   render() {
     return (
       <div>
-        <h1>react-a11y-select Demo</h1>
-
+        <h1>React Component</h1>
         <Select label="Test method">
-          <Option key="1" value="1">Option 1</Option>
-          <Option key="2" value="2">Option <i>2</i></Option>
-          <Option key="3" value="3">Option 3</Option>
+          <Option value="apple">
+            <img src="/apple.png" role="presentation" />
+            Apple
+          </Option>
+          <Option value="cherry">
+            <img src="/cherry.png" role="presentation" />
+            Cherry
+          </Option>
+          <Option value="grape">
+            <img src="/grape.png" role="presentation" />
+            Grape
+          </Option>
+          <Option value="lemon">
+            <img src="/lemon.png" role="presentation" />
+            Lemon
+          </Option>
+          <Option value="orange">
+            <img src="/orange.png" role="presentation" />
+            Orange
+          </Option>
+          <Option value="peach">
+            <img src="/peach.png" role="presentation" />
+            Peach
+          </Option>
+          <Option value="pineapple">
+            <img src="/pineapple.png" role="presentation" />
+            Pineapple
+          </Option>
+          <Option value="watermelon">
+            <img src="/watermelon.png" role="presentation" />
+            Watermelon
+          </Option>
         </Select>
 
         <h1>Native</h1>
         <select>
-          <option>Native Option 1</option>
-          <option>Native Option 2</option>
-          <option>Native Option 3</option>
+          <option>Apple</option>
+          <option>Cherry</option>
+          <option>Grape</option>
+          <option>Lemon</option>
+          <option>Orange</option>
+          <option>Peach</option>
+          <option>Pineapple</option>
+          <option>Watermelon</option>
         </select>
 
       </div>

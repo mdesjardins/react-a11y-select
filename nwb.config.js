@@ -9,6 +9,11 @@ module.exports = {
       },
     },
   },
+  webpack: {
+    html: {
+      template: 'demo/src/index.html',
+    },
+  },
   karma: {
     testContext: 'tests/setup.js',
   },
