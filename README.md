@@ -4,7 +4,10 @@
 -[![npm package][npm-badge]][npm]
 -[![Coveralls][coveralls-badge]][coveralls]
 
-A customizable select/dropdown component with a focus on accessibility.
+A customizable select/dropdown component with a focus on accessibility (a11y).
+
+## Live Demo
+http://mikedesjardins.net/react-a11y-select/
 
 ## Installation
 ### via npm
@@ -18,11 +21,11 @@ Here is a very simple example for how to use the component:
     ReactDOM.render(
       <Select>
         <Option value="apple">
-          <img src="/apple.png" role="presentation" />
+          <img src="apple.png" role="presentation" />
           Apple
         </Option>
         <Option value="cherry">
-           <img src="/cherry.png" role="presentation" />
+           <img src="cherry.png" role="presentation" />
            Cherry
         </Option>
       </Select>,

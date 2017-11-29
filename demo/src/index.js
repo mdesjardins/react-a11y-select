@@ -19,35 +19,35 @@ class Demo extends Component {
             <h2>Live Demo</h2>
             <Select label="Test method">
               <Option value="apple">
-                <img src="/apple.png" role="presentation" />
+                <img src="apple.png" role="presentation" />
                 Apple
               </Option>
               <Option value="cherry">
-                <img src="/cherry.png" role="presentation" />
+                <img src="cherry.png" role="presentation" />
                 Cherry
               </Option>
               <Option value="grape">
-                <img src="/grape.png" role="presentation" />
+                <img src="grape.png" role="presentation" />
                 Grape
               </Option>
               <Option value="lemon">
-                <img src="/lemon.png" role="presentation" />
+                <img src="lemon.png" role="presentation" />
                 Lemon
               </Option>
               <Option value="orange">
-                <img src="/orange.png" role="presentation" />
+                <img src="orange.png" role="presentation" />
                 Orange
               </Option>
               <Option value="peach">
-                <img src="/peach.png" role="presentation" />
+                <img src="peach.png" role="presentation" />
                 Peach
               </Option>
               <Option value="pineapple">
-                <img src="/pineapple.png" role="presentation" />
+                <img src="pineapple.png" role="presentation" />
                 Pineapple
               </Option>
               <Option value="watermelon">
-                <img src="/watermelon.png" role="presentation" />
+                <img src="watermelon.png" role="presentation" />
                 Watermelon
               </Option>
             </Select>
@@ -59,35 +59,35 @@ class Demo extends Component {
             {`
  <Select label="Test method">
    <Option value="apple">
-     <img src="/apple.png" role="presentation" />
+     <img src="apple.png" role="presentation" />
       Apple
    </Option>
    <Option value="cherry">
-     <img src="/cherry.png" role="presentation" />
+     <img src="cherry.png" role="presentation" />
      Cherry
    </Option>
    <Option value="grape">
-     <img src="/grape.png" role="presentation" />
+     <img src="grape.png" role="presentation" />
      Grape
    </Option>
    <Option value="lemon">
-     <img src="/lemon.png" role="presentation" />
+     <img src="lemon.png" role="presentation" />
      Lemon
    </Option>
    <Option value="orange">
-     <img src="/orange.png" role="presentation" />
+     <img src="orange.png" role="presentation" />
      Orange
    </Option>
    <Option value="peach">
-     <img src="/peach.png" role="presentation" />
+     <img src="peach.png" role="presentation" />
      Peach
    </Option>
    <Option value="pineapple">
-     <img src="/pineapple.png" role="presentation" />
+     <img src="pineapple.png" role="presentation" />
      Pineapple
    </Option>
      <Option value="watermelon">
-       <img src="/watermelon.png" role="presentation" />
+       <img src="watermelon.png" role="presentation" />
        Watermelon
      </Option>
  </Select>
