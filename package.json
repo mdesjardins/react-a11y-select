@@ -43,14 +43,13 @@
     "eslint-plugin-flowtype": "^2.2.6",
     "eslint-plugin-jsx-a11y": "^0.6.2",
     "eslint-plugin-mocha": "^2.2.0",
-    "eslint-plugin-react": "^4.3.0",
-    "react-prism": "^4.3.1"
+    "eslint-plugin-react": "^4.3.0"
   },
-  "author": "",
+  "author": "Mike Desjardins",
   "homepage": "",
   "license": "MIT",
-  "repository": "",
-  "keywords": [
+  "repository": "https://github.com/mdesjardins/react-a11y-select",
+  "keywords": [a
     "react-component"
   ]
 }
