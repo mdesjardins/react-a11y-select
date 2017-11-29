@@ -147,7 +147,12 @@ export default class Select extends Component {
         </span>
       )
     }
-    return this.findOption(selectedIndex).props.children
+    return (
+      <span role="button">
+        {this.findOption(selectedIndex).props.children}
+        <div className="arrow">&#x25be;</div>
+      </span>
+    )
   }
 
   renderChildren() {

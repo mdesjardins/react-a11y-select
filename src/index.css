@@ -1,5 +1,5 @@
 .ReactA11ySelect {
-  font: 1.6rem sans-serif;
+  font: 1.0rem sans-serif;
 }
 
 .ReactA11ySelect .button {
@@ -90,16 +90,3 @@
   background: #333;
   color: #fff;
 }
-/* .ReactA11ySelect ul li:hover ul { */
-/*   display: block; */
-/*   opacity: 1; */
-/*   visibility: visible; */
-/* } */
-/* .ReactA11ySelect ul li > span { */
-/* 	display: inline-block; */
-/* 	margin: 0 0 -3px 5px; */
-/* 	width: 12px; */
-/* 	height: 12px; */
-/* 	background-image: url('https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/down4-24.png'); */
-/* 	background-size: 12px 12px; */
-/* } */

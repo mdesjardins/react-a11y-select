@@ -1,5 +1,37 @@
+@font-face {
+  font-family: system;
+  font-style: normal;
+  font-weight: 300;
+  src: local(".SFNSText-Light"), local(".HelveticaNeueDeskInterface-Light"), local(".LucidaGrandeUI"), local("Ubuntu Light"), local("Segoe UI Light"), local("Roboto-Light"), local("DroidSans"), local("Tahoma");
+}
+
+html {
+  font-family: "system";
+  font-size: 13px;
+}
+
+.container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+
+.outer {
+  margin: 10px auto;
+  width: 90%;
+}
+
+.source, .component {
+  flex: 1;
+  width: 45%;
+}
+
+pre {
+  font-size: 0.8rem;
+}
+
 .ReactA11ySelect img {
   margin: 5px;
-  width: 30px;
+  width: 20px;
   vertical-align: middle;
 }
