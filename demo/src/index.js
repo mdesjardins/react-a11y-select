@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { render } from 'react-dom'
-import { PrismCode } from 'react-prism'
 
 import { Select, Option } from '../../src'
 

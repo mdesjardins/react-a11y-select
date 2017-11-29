@@ -16,7 +16,8 @@
     "start": "nwb serve-react-demo",
     "test": "nwb test-react",
     "test:coverage": "nwb test-react --coverage",
-    "test:watch": "nwb test-react --server"
+    "test:watch": "nwb test-react --server",
+    "publish": "nwb build-demo && gh-pages -d demo/dist"
   },
   "dependencies": {},
   "peerDependencies": {
@@ -43,13 +44,14 @@
     "eslint-plugin-flowtype": "^2.2.6",
     "eslint-plugin-jsx-a11y": "^0.6.2",
     "eslint-plugin-mocha": "^2.2.0",
-    "eslint-plugin-react": "^4.3.0"
+    "eslint-plugin-react": "^4.3.0",
+    "gh-pages": "1.1.0"
   },
   "author": "Mike Desjardins",
   "homepage": "",
   "license": "MIT",
   "repository": "https://github.com/mdesjardins/react-a11y-select",
-  "keywords": [a
+  "keywords": [
     "react-component"
   ]
 }
