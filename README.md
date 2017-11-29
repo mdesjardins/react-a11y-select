@@ -1,8 +1,8 @@
 # react-a11y-select
 
--[![Travis][build-badge]][build]
--[![npm package][npm-badge]][npm]
--[![Coveralls][coveralls-badge]][coveralls]
+[![Travis][build-badge]][build]
+[![npm package][npm-badge]][npm]
+[![Coveralls][coveralls-badge]][coveralls]
 
 A customizable select/dropdown component with a focus on accessibility (a11y).
 

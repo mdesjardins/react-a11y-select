@@ -14,6 +14,10 @@ class Demo extends Component {
           designed to be accessible to screenreaders and respond to keyboard
           controls as a native component will.
         </p>
+        <p>
+          See source at <a href="https://www.github.com/mdesjardins/react-a11y-select">
+          https://www.github.com/mdesjardins/react-a11y-select</a>.
+        </p>
         <div className="container">
           <div className="component">
             <h2>Live Demo</h2>
