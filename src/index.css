@@ -6,9 +6,7 @@
   text-align: left;
   display: inline;
   margin: 0;
-  padding: 5px 15px;
-  /* padding: 15px 4px 17px 0; */
-  /* list-style: none; */
+  padding: 0.5rem 1.5rem;
 }
 
 .ReactA11ySelect .button:hover {
@@ -24,20 +22,18 @@
 
 .ReactA11ySelect .button {
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 0.25rem;
 }
 
 .ReactA11ySelect .button.open {
   background-color: #ddd;
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 0.25rem;
 }
 
 .ReactA11ySelect ul li {
-  /* display: inline-block; */
-  /* margin-right: -4px; */
   position: relative;
-  padding: 5px 15px;
+  padding: 0.5rem 1.5rem;
   cursor: pointer;
   -webkit-transition: all 0.2s;
   -moz-transition: all 0.2s;
@@ -47,28 +43,13 @@
   color: #111;
 }
 
-/* .ReactA11ySelect ul li:hover { */
-/*   background: #555; */
-/*   color: #fff; */
-/* } */
-
 .ReactA11ySelect ul {
-  /* border: 1px solid #999; */
-  border-radius: 5px;
-  margin-top: 5px;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
   padding: 0;
   position: absolute;
-  /* top: 48px; */
-  left: 8px;
   background: #fff;
-  /* width: 150px; */
-  /* -webkit-box-shadow: none; */
-  /* -moz-box-shadow: none; */
-  /* box-shadow: none; */
   box-shadow: 0 4px 8px #aaa;
-  /* display: none; */
-  /* opacity: 0; */
-  /* visibility: hidden; */
   -webkit-transiton: opacity 0.2s;
   -moz-transition: opacity 0.2s;
   -ms-transition: opacity 0.2s;
@@ -76,10 +57,6 @@
   -transition: opacity 0.2s;
   list-style: none;
   z-index: 1;
-}
-.ReactA11ySelect ul li ul li {
-  /* min-width: 80px; */
-  /* background-color: #555; */
 }
 .ReactA11ySelect ul li ul li > a {
   text-decoration: none;

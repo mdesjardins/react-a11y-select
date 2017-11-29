@@ -43,9 +43,13 @@ This hasn't been released onto NPM yet as there's still a lot more to do. It nee
 * Need to convert the CSS to use BEM or something similar - I'm used to PostCSS modules but that seems like a bad choice for a component library like this one. Would like to try using CSS variables here, too.
 * There's still some styling work that needs to be done - e.g., the popup isn't always located in the right spot.
 * An `<OptGroup>` element would be nice.
-* Need to put the demo page up somewhere and record a screencast of the screen reader in action.
+* Need to record a screencast of the screen reader in action.
 * Make the down-arrow-thing customizable.
 * A CI server would be nice once there are actually some tests in place.
+
+## Was this project not quite what you were hoping for?
+Check out David Clark's awesome aria menubutton project: https://github.com/davidtheclark/react-aria-menubutton
+It's another implementation of a React dropdown component where web accessibility is a primary goal.
 
 ## License
 MIT

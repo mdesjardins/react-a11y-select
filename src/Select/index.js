@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Option from '../Option'
+import PropTypes from 'prop-types'
 import '../index.css'
 
 export default class Select extends Component {
@@ -18,6 +19,12 @@ export default class Select extends Component {
       }
       return null
     },
+    placeholderText: PropTypes.string,
+    indicator: PropTypes.string,
+  }
+  static defaultProps = {
+    placeholderText: 'Please choose...',
+    indicator: '&#x25be;',
   }
 
   constructor() {
@@ -75,6 +82,7 @@ export default class Select extends Component {
 
   handleKeyDown = (e) => {
     const { open, highlightedIndex } = this.state
+
     // down arrow
     if (e.keyCode === 40) {
       if (!open) {
@@ -82,7 +90,6 @@ export default class Select extends Component {
           open: true,
         })
       }
-
       const nextIndex = highlightedIndex === React.Children.count(this.options) - 1 ?
             highlightedIndex : highlightedIndex + 1
       this.setState({
@@ -92,7 +99,6 @@ export default class Select extends Component {
 
     // up arrow
     if (e.keyCode === 38) {
-      // const previousKey = this.previousKey(highlightedIndex)
       const previousIndex = highlightedIndex === 0 ? 0 : highlightedIndex - 1
       this.setState({
         highlightedIndex: previousIndex,
@@ -140,17 +146,19 @@ export default class Select extends Component {
 
   renderButtonLabel() {
     const { selectedIndex } = this.state
+    const { placeholderText, indicator } = this.props
     if (selectedIndex === null) {
       return (
         <span role="button">
-          Selected <div className="arrow">&#x25be;</div>
+          { placeholderText }
+          <div className="arrow" dangerouslySetInnerHTML={{ __html: indicator }} />
         </span>
       )
     }
     return (
       <span role="button">
         {this.findOption(selectedIndex).props.children}
-        <div className="arrow">&#x25be;</div>
+        <div className="arrow" dangerouslySetInnerHTML={{ __html: indicator }} />
       </span>
     )
   }
