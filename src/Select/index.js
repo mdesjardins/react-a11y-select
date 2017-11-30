@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Option from '../Option'
 import PropTypes from 'prop-types'
-import '../index.css'
 
 export default class Select extends Component {
   static propTypes = {
@@ -151,14 +150,20 @@ export default class Select extends Component {
       return (
         <span role="button">
           { placeholderText }
-          <div className="arrow" dangerouslySetInnerHTML={{ __html: indicator }} />
+          <div
+            className="ReactA11ySelect__button__arrow"
+            dangerouslySetInnerHTML={{ __html: indicator }}
+          />
         </span>
       )
     }
     return (
       <span role="button">
         {this.findOption(selectedIndex).props.children}
-        <div className="arrow" dangerouslySetInnerHTML={{ __html: indicator }} />
+        <div
+          className="ReactA11ySelect__button__arrow"
+          dangerouslySetInnerHTML={{ __html: indicator }}
+        />
       </span>
     )
   }
@@ -187,14 +192,16 @@ export default class Select extends Component {
       >
         <div
           tabIndex="0"
-          className={`button ${this.state.open ? 'open' : 'closed'}`}
+          className={
+            `ReactA11ySelect__button ${this.state.open ? 'ReactA11ySelect__button--open' : ''}`
+          }
           onClick={this.handleClick}
           onKeyDown={this.handleKeyDown}
         >
           {this.renderButtonLabel()}
         </div>
         {this.state.open &&
-          <ul role="menu" id="owned_listbox">
+          <ul role="menu" id="owned_listbox" className="ReactA11ySelect__ul">
             {this.renderChildren()}
           </ul>}
       </div>

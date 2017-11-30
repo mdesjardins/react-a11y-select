@@ -3,6 +3,7 @@ import { render } from 'react-dom'
 
 import { Select, Option } from '../../src'
 
+import '../../src/styles.css'
 
 class Demo extends Component {
   render() {

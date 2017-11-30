@@ -1,6 +1,6 @@
 {
   "name": "react-a11y-select",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A web-accessible React select/menu/dropdown component",
   "keywords": "react reactjs select menu dropdown a11y",
   "main": "lib/index.js",

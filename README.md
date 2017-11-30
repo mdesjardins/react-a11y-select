@@ -18,24 +18,34 @@ npm install react-a11y-select
 ## Usage
 Here is a very simple example for how to use the component:
 
-    ReactDOM.render(
-      <Select>
-        <Option value="apple">
-          <img src="apple.png" role="presentation" />
-          Apple
-        </Option>
-        <Option value="cherry">
-           <img src="cherry.png" role="presentation" />
-           Cherry
-        </Option>
-      </Select>,
-      document.getElementById('dropdown')
-    )
+    import { Select, Option } from 'react-a11y-select'
+    import 'react-a11y-select/styles.css'
+    ...
+
+    <Select>
+      <Option value="apple">
+        <img src="apple.png" role="presentation" />
+        Apple
+      </Option>
+      <Option value="cherry">
+         <img src="cherry.png" role="presentation" />
+         Cherry
+      </Option>
+    </Select>
+
 
 This will render an unordered list styled as a dropdown/select box. Importantly, it will have all of the correct ARIA and role attributes to make it usable by screen readers, and it will respond as expected to keyboard input.
 
+## Props
+The following properties are on the `<Select>` component:
+
+* `label` - the ARIA label attribute for the component. Briefly describes the form field for screen readers. Either `label` or `labelledBy` are required.
+* `labelledBy` - the ARIA labelledBy attribute for the compoent. Set to the ID of a `<label>` DOM element which briefly describes the form field to screen readers.
+* `placeholderText` - what appears in the dropdown before a value is selected. Defaults to "Please choose..."
+* `indicator` - Unicode character that is used for the arrow indicator in the component. Defaults to `&#x25be` which is rendered as &#x25be;
+
 ## This is very much a work-in-progress
-This hasn't been released onto NPM yet as there's still a lot more to do. It needs more tests, more features, more everything. Even when it's finished, it will probably be most valuable as a "demonstration" component to serve as inspiration for your own work. Here's a list of my TODOs:
+This hasn't been released onto NPM yet as there's still a lot more to do. It needs more tests, more features, more everything. Even when it's finished, it will probably be most valuable as a "demonstration" component to serve as inspiration for your own work. The props and API are subject to change. Here's a list of my TODOs:
 
 * More tests (there basically aren't any right now)
 * Use Flow for typechecking

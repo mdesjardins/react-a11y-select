@@ -15,7 +15,9 @@ export default class Option extends Component {
     const { highlighted, onMouseOver, onClick, id } = this.props
     return (
       <li
-        className={highlighted ? 'highlighted' : ''}
+        className={
+          `ReactA11ySelect__ul__li ${highlighted ? 'ReactA11ySelect__ul__li--highlighted' : ''}`
+        }
         onMouseOver={onMouseOver}
         onClick={onClick}
         role="menuitem"
