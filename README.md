@@ -63,8 +63,8 @@ It's another implementation of a React dropdown component where web accessibilit
 ## License
 MIT
 
-[build-badge]: https://img.shields.io/travis/user/repo/master.png?style=flat-square
-[build]: https://travis-ci.org/user/repo
+[build-badge]: https://img.shields.io/travis/mdesjardins/react-a11y-select/master.png?style=flat-square
+[build]: https://travis-ci.org/mdesjardins/react-a11y-select
 
 [npm-badge]: https://img.shields.io/npm/v/react-a11y-select.png?style=flat-square
 [npm]: https://www.npmjs.org/package/react-a11y-select
