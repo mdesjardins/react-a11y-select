@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Option from '../Option'
 import PropTypes from 'prop-types'
+import * as keycode from '../keycodes'
 
 export default class Select extends Component {
   static propTypes = {
@@ -20,11 +21,12 @@ export default class Select extends Component {
     },
     placeholderText: PropTypes.string,
     indicator: PropTypes.string,
-    onChange: PropTypes.function,
+    onChange: PropTypes.func,
   }
   static defaultProps = {
     placeholderText: 'Please choose...',
     indicator: '&#x25be;',
+    onChange: (_value) => {},
   }
 
   constructor() {
@@ -83,8 +85,7 @@ export default class Select extends Component {
   handleKeyDown = (e) => {
     const { open, highlightedIndex } = this.state
 
-    // down arrow
-    if (e.keyCode === 40) {
+    if (e.keyCode === keycode.DOWN) {
       if (!open) {
         this.setState({
           open: true,
@@ -97,16 +98,14 @@ export default class Select extends Component {
       })
     }
 
-    // up arrow
-    if (e.keyCode === 38) {
+    if (e.keyCode === keycode.UP) {
       const previousIndex = highlightedIndex === 0 ? 0 : highlightedIndex - 1
       this.setState({
         highlightedIndex: previousIndex,
       })
     }
 
-    // Escape Key
-    if (e.keyCode === 27) {
+    if (e.keyCode === keycode.ESC) {
       if (open) {
         this.setState({
           open: false,
@@ -115,7 +114,7 @@ export default class Select extends Component {
     }
 
     // Enter
-    if (e.keyCode === 13 && open) {
+    if (e.keyCode === keycode.ENTER && open) {
       this.handleOptionClick(highlightedIndex)
     }
   }
@@ -200,8 +199,8 @@ export default class Select extends Component {
           className={
             `ReactA11ySelect__button ${this.state.open ? 'ReactA11ySelect__button--open' : ''}`
           }
-          onClick={this.handleClick}
           onKeyDown={this.handleKeyDown}
+          onClick={this.handleClick}
         >
           {this.renderButtonLabel()}
         </div>
