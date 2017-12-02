@@ -20,6 +20,7 @@ export default class Select extends Component {
     },
     placeholderText: PropTypes.string,
     indicator: PropTypes.string,
+    onChange: PropTypes.function,
   }
   static defaultProps = {
     placeholderText: 'Please choose...',
@@ -114,14 +115,8 @@ export default class Select extends Component {
     }
 
     // Enter
-    if (e.keyCode === 13) {
-      if (open) {
-        this.setState({
-          open: false,
-          selectedIndex: this.state.highlightedIndex,
-          highlightedIndex: null,
-        })
-      }
+    if (e.keyCode === 13 && open) {
+      this.handleOptionClick(highlightedIndex)
     }
   }
 
@@ -131,12 +126,22 @@ export default class Select extends Component {
     })
   }
 
-  handleOptionClick(e, clickedIndex) {
+  handleOptionClick(_e, clickedIndex) {
+    this.selectOption(clickedIndex)
+  }
+
+  selectOption(index) {
+    const { onChange } = this.props
     this.setState({
       open: false,
-      selectedIndex: clickedIndex,
+      selectedIndex: index,
       highlightedIndex: null,
     })
+
+    const selectedValue = this.findOption(index).props.value
+    if (onChange) {
+      onChange(selectedValue)
+    }
   }
 
   findOption(index) {

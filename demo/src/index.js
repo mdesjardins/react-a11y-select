@@ -6,6 +6,17 @@ import { Select, Option } from '../../src'
 import '../../src/styles.css'
 
 class Demo extends Component {
+  constructor() {
+    super()
+    this.state = {
+      selection: ''
+    }
+  }
+
+  handleSelectChange = (selection) => {
+    this.setState({ selection })
+  }
+
   render() {
     return (
       <div className="outer">
@@ -22,7 +33,7 @@ class Demo extends Component {
         <div className="container">
           <div className="component">
             <h2>Live Demo</h2>
-            <Select label="Test method">
+            <Select label="Test method" onChange={this.handleSelectChange}>
               <Option value="apple">
                 <img src="apple.png" role="presentation" />
                 Apple
@@ -56,6 +67,9 @@ class Demo extends Component {
                 Watermelon
               </Option>
             </Select>
+            <p>
+              You selected: <em>{this.state.selection}</em>
+            </p>
           </div>
 
           <div className="source">
