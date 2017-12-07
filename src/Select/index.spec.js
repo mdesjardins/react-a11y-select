@@ -7,11 +7,13 @@ import * as keycode from '../keycodes'
 
 describe('Select', () => {
   let component
+  const onChangeSpy = expect.createSpy()
 
   context('that is empty', () => {
     beforeEach(() => {
-      component = shallow(<Select label="Elvis" />)
+      component = shallow(<Select label="Elvis" onChange={onChangeSpy} />)
     })
+    afterEach(() => onChangeSpy.restore())
 
     it('renders the wrapper div element', () => {
       expect(component.find('.ReactA11ySelect').length).toEqual(1)
@@ -26,7 +28,7 @@ describe('Select', () => {
     let inner
     beforeEach(() => {
       component = shallow(
-        <Select label="Deceased Rock Stars">
+        <Select label="Deceased Rock Stars" onChange={onChangeSpy}>
           <Option value="elvis">Elvis Presley</Option>
           <Option value="jimi">Jimi Hendrix</Option>
           <Option value="john">John Lennon</Option>
@@ -55,10 +57,30 @@ describe('Select', () => {
     })
 
     describe('close', () => {
+      context('with mouse', () => {
+        beforeEach(() => inner.simulate('click'))
+
+        it('closes when you click a second time', () => {
+          inner.simulate('click')
+          expect(component.find(Option).length).toEqual(0)
+        })
+
+        // TODO not sure how to test this?
+        it('closes when you click outside the component')
+      })
+
+      context('with keyboard', () => {
+        beforeEach(() => inner.simulate('keydown', { keyCode: keycode.DOWN }))
+      })
+
+      it('closes when you key ESC', () => {
+        inner.simulate('keydown', { keyCode: keycode.ESC })
+        expect(component.find(Option).length).toEqual(0)
+      })
     })
 
     describe('highlighting', () => {
-      beforeEach(() => inner.simulate('click') )
+      beforeEach(() => inner.simulate('click'))
 
       it('highlights on mouse hover', () => {
         // don't forget - you can't assign option to a variable and check it
@@ -82,6 +104,29 @@ describe('Select', () => {
     })
 
     describe('selecting', () => {
+      context('with keyboard', () => {
+        beforeEach(() => {
+          inner.simulate('keyDown', { keyCode: keycode.DOWN })
+          inner.simulate('keyDown', { keyCode: keycode.DOWN })
+        })
+
+        it('invokes the onChange callback', () => {
+          inner.simulate('keyDown', { keyCode: keycode.ENTER })
+          expect(onChangeSpy).toHaveBeenCalledWith('jimi')
+        })
+      })
+
+      context('with mouse', () => {
+        beforeEach(() => {
+          inner.simulate('click')
+          component.find(Option).first().simulate('mouseOver')
+        })
+
+        it('invokes the onChange callback', () => {
+          component.find(Option).first().simulate('click')
+          expect(onChangeSpy).toHaveBeenCalledWith('elvis')
+        })
+      })
     })
   })
 })

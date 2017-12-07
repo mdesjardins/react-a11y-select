@@ -84,7 +84,6 @@ export default class Select extends Component {
 
   handleKeyDown = (e) => {
     const { open, highlightedIndex } = this.state
-
     if (e.keyCode === keycode.DOWN) {
       if (!open) {
         this.setState({
@@ -115,7 +114,7 @@ export default class Select extends Component {
 
     // Enter
     if (e.keyCode === keycode.ENTER && open) {
-      this.handleOptionClick(highlightedIndex)
+      this.handleOptionClick(e, highlightedIndex)
     }
   }
 
