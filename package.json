@@ -1,8 +1,10 @@
 {
   "name": "react-a11y-select",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A web-accessible React select/menu/dropdown component",
-  "keywords": "react reactjs select menu dropdown a11y",
+  "keywords": [
+    "react-component"
+  ],
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
@@ -20,7 +22,9 @@
     "test:watch": "nwb test-react --server",
     "homepage": "nwb build-demo && gh-pages -d demo/dist"
   },
-  "dependencies": {},
+  "dependencies": {
+    "lodash.uniqueid": "^4.0.1"
+  },
   "peerDependencies": {
     "react": "16.x"
   },
@@ -52,8 +56,5 @@
   "homepage": "http://www.mikedesjardins.net/react-a11y-select",
   "license": "MIT",
   "repository": "https://github.com/mdesjardins/react-a11y-select",
-  "bugs": "https://github.com/mdesjardins/react-a11y-select/issues",
-  "keywords": [
-    "react-component"
-  ]
+  "bugs": "https://github.com/mdesjardins/react-a11y-select/issues"
 }

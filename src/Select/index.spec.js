@@ -19,8 +19,20 @@ describe('Select', () => {
       expect(component.find('.ReactA11ySelect').length).toEqual(1)
     })
 
-    it('renders a button element', () => {
-      expect(component.find('span').prop('role')).toEqual('button')
+    describe('button element', () => {
+      let button
+      beforeEach(() => button = component.find('.ReactA11ySelect__button'))
+      it('renders a div with a button role', () => {
+        expect(button.prop('role')).toEqual('button')
+      })
+
+      it('sets aria-haspopup to true', () => {
+        expect(button.prop('aria-haspopup')).toEqual('true')
+      })
+
+      it('does not set an aria-expanded prop', () => {
+        expect(button.prop('aria-expanded')).toBe(undefined)
+      })
     })
   })
 
@@ -52,6 +64,16 @@ describe('Select', () => {
 
       it('opens when it receives a down arrow', () => {
         inner.simulate('keyDown', { keyCode: keycode.DOWN })
+        expect(component.find(Option).length).toEqual(4)
+      })
+
+      it('opens when it receives an enter key', () => {
+        inner.simulate('keyDown', { keyCode: keycode.ENTER })
+        expect(component.find(Option).length).toEqual(4)
+      })
+
+      it('opens when it receives a space', () => {
+        inner.simulate('keyDown', { keyCode: keycode.SPACE })
         expect(component.find(Option).length).toEqual(4)
       })
     })

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Option from '../Option'
 import PropTypes from 'prop-types'
+import uniqueId from 'lodash/uniqueId'
 import * as keycode from '../keycodes'
 
 export default class Select extends Component {
@@ -112,9 +113,21 @@ export default class Select extends Component {
       }
     }
 
-    // Enter
-    if (e.keyCode === keycode.ENTER && open) {
-      this.handleOptionClick(e, highlightedIndex)
+    if (e.keyCode === keycode.ENTER || e.keyCode === keycode.SPACE) {
+      if (open) {
+        this.handleOptionClick(e, highlightedIndex)
+      } else {
+        this.setState({
+          open: true,
+          highlightedIndex: 0,
+        })
+      }
+    }
+
+    if (e.keyCode === keycode.TAB && open) {
+      this.setState({
+        open: false,
+      })
     }
   }
 
@@ -146,12 +159,12 @@ export default class Select extends Component {
     return this.options.find((option) => option.props.index === index)
   }
 
-  renderButtonLabel() {
+  renderButtonLabel(listId) {
     const { selectedIndex } = this.state
     const { placeholderText, indicator } = this.props
     if (selectedIndex === null) {
       return (
-        <span role="button">
+        <span aria-controls={listId}>
           { placeholderText }
           <div
             className="ReactA11ySelect__button__arrow"
@@ -161,7 +174,7 @@ export default class Select extends Component {
       )
     }
     return (
-      <span role="button">
+      <span aria-controls={listId}>
         {this.findOption(selectedIndex).props.children}
         <div
           className="ReactA11ySelect__button__arrow"
@@ -187,10 +200,10 @@ export default class Select extends Component {
 
   render() {
     const { open } = this.state
+    const listId = `react-a11y-select-${uniqueId()}`
     return (
       <div
         className="ReactA11ySelect"
-        aria-expanded={open}
         ref={(wrapperDiv) => { this.wrapperDiv = wrapperDiv }}
       >
         <div
@@ -198,13 +211,16 @@ export default class Select extends Component {
           className={
             `ReactA11ySelect__button ${this.state.open ? 'ReactA11ySelect__button--open' : ''}`
           }
+          role="button"
+          aria-haspopup="true"
+          aria-expanded={open ? true : undefined} // ARIA recommends not excluding over false
           onKeyDown={this.handleKeyDown}
           onClick={this.handleClick}
         >
-          {this.renderButtonLabel()}
+          {this.renderButtonLabel(listId)}
         </div>
         {this.state.open &&
-          <ul role="menu" id="owned_listbox" className="ReactA11ySelect__ul">
+          <ul id={listId} role="menu" className="ReactA11ySelect__ul">
             {this.renderChildren()}
           </ul>}
       </div>
