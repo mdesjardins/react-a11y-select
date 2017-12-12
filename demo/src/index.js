@@ -9,7 +9,7 @@ class Demo extends Component {
   constructor() {
     super()
     this.state = {
-      selection: ''
+      selection: '',
     }
   }
 
@@ -20,18 +20,20 @@ class Demo extends Component {
   render() {
     return (
       <div className="outer">
-        <h1>react-a11y-select component</h1>
-        <p>
-          This is a live demo of the react-a11y-select component, which was
-          designed to be accessible to screenreaders and respond to keyboard
-          controls as a native component will.
-        </p>
-        <p>
-          See source at <a href="https://www.github.com/mdesjardins/react-a11y-select">
-          https://www.github.com/mdesjardins/react-a11y-select</a>.
-        </p>
+        <banner>
+          <h1>react-a11y-select component</h1>
+          <p>
+            This is a live demo of the react-a11y-select component, which was
+            designed to be accessible to screenreaders and respond to keyboard
+            controls as a native component will.
+          </p>
+          <p>
+            See source at <a href="https://www.github.com/mdesjardins/react-a11y-select">
+              https://www.github.com/mdesjardins/react-a11y-select</a>.
+          </p>
+        </banner>
         <div className="container">
-          <div className="component">
+          <main>
             <h2>Live Demo</h2>
             <Select label="Test method" onChange={this.handleSelectChange}>
               <Option value="apple">
@@ -70,9 +72,9 @@ class Demo extends Component {
             <p>
               You selected: <em>{this.state.selection}</em>
             </p>
-          </div>
+          </main>
 
-          <div className="source">
+          <complementary>
             <h2>Code</h2>
             <pre className="language-html">
             {`
@@ -112,7 +114,7 @@ class Demo extends Component {
  </Select>
         `}
             </pre>
-          </div>
+          </complementary>
         </div>
       </div>
     )

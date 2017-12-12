@@ -22,6 +22,7 @@ export default class Select extends Component {
     },
     placeholderText: PropTypes.string,
     indicator: PropTypes.string,
+    initialValue: PropTypes.string,
     onChange: PropTypes.func,
   }
   static defaultProps = {
