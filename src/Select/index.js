@@ -37,25 +37,34 @@ export default class Select extends Component {
       open: false,
       selectedIndex: null,
       highlightedIndex: -1,
-      selectedValue: null, //TODO
     }
     this.options = []
   }
 
   componentWillMount() {
     let index = -1
-    const indexedOptions = React.Children.map(this.props.children, (child) => {
+    const { children, initialValue } = this.props
+    const indexedOptions = React.Children.map(children, (child) => {
       if (child.type === Option) {
         index++
         return React.cloneElement(child, {
           onMouseOver: (e) => this.handleOptionHover(e, index),
-          onClick: (e) => this.handleOptionClick(e, index),
+          onClick: (e) => this.handleOptionSelect(e, index),
           index,
         })
       }
       return null
     })
     this.options = React.Children.toArray(indexedOptions).filter((child) => !!child)
+
+    if (initialValue) {
+      const initialOption = this.findOptionByValue(initialValue)
+      if (initialOption) {
+        this.setState({
+          selectedIndex: initialOption.props.index,
+        })
+      }
+    }
   }
 
   componentDidMount() {
@@ -86,49 +95,57 @@ export default class Select extends Component {
 
   handleKeyDown = (e) => {
     const { open, highlightedIndex } = this.state
-    if (e.keyCode === keycode.DOWN) {
-      if (!open) {
+    e.preventDefault()
+    switch (e.keyCode) {
+      case keycode.DOWN: {
+        if (!open) {
+          this.setState({
+            open: true,
+          })
+        }
+        const nextIndex = highlightedIndex === React.Children.count(this.options) - 1 ?
+              highlightedIndex : highlightedIndex + 1
         this.setState({
-          open: true,
+          highlightedIndex: nextIndex,
         })
+        break
       }
-      const nextIndex = highlightedIndex === React.Children.count(this.options) - 1 ?
-            highlightedIndex : highlightedIndex + 1
-      this.setState({
-        highlightedIndex: nextIndex,
-      })
-    }
-
-    if (e.keyCode === keycode.UP) {
-      const previousIndex = highlightedIndex === 0 ? 0 : highlightedIndex - 1
-      this.setState({
-        highlightedIndex: previousIndex,
-      })
-    }
-
-    if (e.keyCode === keycode.ESC) {
-      if (open) {
+      case keycode.UP: {
+        const previousIndex = highlightedIndex === 0 ? 0 : highlightedIndex - 1
         this.setState({
-          open: false,
+          highlightedIndex: previousIndex,
         })
+        break
       }
-    }
-
-    if (e.keyCode === keycode.ENTER || e.keyCode === keycode.SPACE) {
-      if (open) {
-        this.handleOptionClick(e, highlightedIndex)
-      } else {
-        this.setState({
-          open: true,
-          highlightedIndex: 0,
-        })
+      case keycode.ESC: {
+        if (open) {
+          this.setState({
+            open: false,
+          })
+        }
+        break
       }
-    }
-
-    if (e.keyCode === keycode.TAB && open) {
-      this.setState({
-        open: false,
-      })
+      case keycode.SPACE:
+      case keycode.ENTER: {
+        if (open) {
+          this.handleOptionSelect(e, highlightedIndex)
+        } else {
+          this.setState({
+            open: true,
+            highlightedIndex: 0,
+          })
+        }
+        break
+      }
+      case keycode.TAB: {
+        if (open) {
+          this.setState({
+            open: false,
+          })
+        }
+        break
+      }
+      default:
     }
   }
 
@@ -138,7 +155,7 @@ export default class Select extends Component {
     })
   }
 
-  handleOptionClick(_e, clickedIndex) {
+  handleOptionSelect(_e, clickedIndex) {
     this.selectOption(clickedIndex)
   }
 
@@ -150,14 +167,18 @@ export default class Select extends Component {
       highlightedIndex: null,
     })
 
-    const selectedValue = this.findOption(index).props.value
+    const selectedValue = this.findOptionByIndex(index).props.value
     if (onChange) {
       onChange(selectedValue)
     }
   }
 
-  findOption(index) {
+  findOptionByIndex(index) {
     return this.options.find((option) => option.props.index === index)
+  }
+
+  findOptionByValue(value) {
+    return this.options.find((option) => option.props.value === value)
   }
 
   renderButtonLabel(listId) {
@@ -176,7 +197,7 @@ export default class Select extends Component {
     }
     return (
       <span aria-controls={listId}>
-        {this.findOption(selectedIndex).props.children}
+        {this.findOptionByIndex(selectedIndex).props.children}
         <div
           className="ReactA11ySelect__button__arrow"
           dangerouslySetInnerHTML={{ __html: indicator }}
@@ -193,7 +214,7 @@ export default class Select extends Component {
         highlighted: (highlightedIndex === option.props.index ? true : undefined),
         selected: (selectedIndex === option.props.index),
         onMouseOver: (e) => this.handleOptionHover(e, option.props.index),
-        onClick: (e) => this.handleOptionClick(e, option.props.index),
+        onClick: (e) => this.handleOptionSelect(e, option.props.index),
       })
     )
     return <div>{options}</div>
@@ -207,7 +228,7 @@ export default class Select extends Component {
         className="ReactA11ySelect"
         ref={(wrapperDiv) => { this.wrapperDiv = wrapperDiv }}
       >
-        <div
+        <button
           tabIndex="0"
           className={
             `ReactA11ySelect__button ${this.state.open ? 'ReactA11ySelect__button--open' : ''}`
@@ -219,7 +240,7 @@ export default class Select extends Component {
           onClick={this.handleClick}
         >
           {this.renderButtonLabel(listId)}
-        </div>
+        </button>
         {this.state.open &&
           <ul id={listId} role="menu" className="ReactA11ySelect__ul">
             {this.renderChildren()}

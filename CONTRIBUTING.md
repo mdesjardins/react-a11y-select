@@ -23,3 +23,13 @@
 - `npm run build` will build the component for publishing to npm and also bundle the demo app.
 
 - `npm run clean` will delete built resources.
+
+## Coding conventions
+
+- Basically "don't make any ESLint errors"
+
+- CSS follows BEM conventions for now - I didn't want to use a CSS preprocessor and potentially make unreadable/overrideable CSS like CSS modules can.
+
+- Specs for all the things.
+
+- Follow the ARIA rules: https://w3c.github.io/using-aria/ https://www.w3.org/TR/wai-aria-practices/#menubutton etc.

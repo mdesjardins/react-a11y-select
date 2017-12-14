@@ -10,6 +10,7 @@
 .ReactA11ySelect__button {
   border: 1px solid var(--border-color);
   border-radius: 0.25rem;
+  font-size: 1.0rem;
   text-align: left;
   display: inline;
   margin: 0;

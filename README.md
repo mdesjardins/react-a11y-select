@@ -42,7 +42,12 @@ The following properties are on the `<Select>` component:
 * `labelledBy` - the ARIA labelledBy attribute for the compoent. Set to the ID of a `<label>` DOM element which briefly describes the form field to screen readers (note: this is likely going to be deprecated soon)
 * `placeholderText` - what appears in the dropdown before a value is selected. Defaults to "Please choose..."
 * `indicator` - Unicode character that is used for the arrow indicator in the component. Defaults to `&#x25be` which is rendered as &#x25be;
+* `initialValue` - The initial value for the dropdown.
 * `onChange` - a handler that is called when the select box value changes. Passed the value that was selected.
+
+The following properties are available on the `<Option>` component:
+
+* `value` - The value associated with the Option.
 
 ## This is very much a work-in-progress
 There's still a lot more to do on this project and most of it is in flux. It needs more tests, more features, more everything. Even when it's finished, it will probably be most valuable as a "demonstration" component to serve as inspiration for your own work. The props and API are subject to change. Here's a list of my TODOs:

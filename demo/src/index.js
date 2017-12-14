@@ -20,7 +20,7 @@ class Demo extends Component {
   render() {
     return (
       <div className="outer">
-        <banner>
+        <div className="banner" role="banner">
           <h1>react-a11y-select component</h1>
           <p>
             This is a live demo of the react-a11y-select component, which was
@@ -31,9 +31,9 @@ class Demo extends Component {
             See source at <a href="https://www.github.com/mdesjardins/react-a11y-select">
               https://www.github.com/mdesjardins/react-a11y-select</a>.
           </p>
-        </banner>
+        </div>
         <div className="container">
-          <main>
+          <div className="main" role="main">
             <h2>Live Demo</h2>
             <Select label="Test method" onChange={this.handleSelectChange}>
               <Option value="apple">
@@ -72,9 +72,9 @@ class Demo extends Component {
             <p>
               You selected: <em>{this.state.selection}</em>
             </p>
-          </main>
+          </div>
 
-          <complementary>
+          <div role="complementary" className="complementary">
             <h2>Code</h2>
             <pre className="language-html">
             {`
@@ -114,7 +114,7 @@ class Demo extends Component {
  </Select>
         `}
             </pre>
-          </complementary>
+          </div>
         </div>
       </div>
     )
