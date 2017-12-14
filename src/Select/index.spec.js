@@ -63,17 +63,17 @@ describe('Select', () => {
       })
 
       it('opens when it receives a down arrow', () => {
-        inner.simulate('keyDown', { keyCode: keycode.DOWN })
+        inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
         expect(component.find(Option).length).toEqual(4)
       })
 
       it('opens when it receives an enter key', () => {
-        inner.simulate('keyDown', { keyCode: keycode.ENTER })
+        inner.simulate('keyDown', { keyCode: keycode.ENTER, preventDefault: () => {} })
         expect(component.find(Option).length).toEqual(4)
       })
 
       it('opens when it receives a space', () => {
-        inner.simulate('keyDown', { keyCode: keycode.SPACE })
+        inner.simulate('keyDown', { keyCode: keycode.SPACE, preventDefault: () => {} })
         expect(component.find(Option).length).toEqual(4)
       })
     })
@@ -92,11 +92,13 @@ describe('Select', () => {
       })
 
       context('with keyboard', () => {
-        beforeEach(() => inner.simulate('keydown', { keyCode: keycode.DOWN }))
+        beforeEach(
+          () => inner.simulate('keydown', { keyCode: keycode.DOWN, preventDefault: () => {} })
+        )
       })
 
       it('closes when you key ESC', () => {
-        inner.simulate('keydown', { keyCode: keycode.ESC })
+        inner.simulate('keydown', { keyCode: keycode.ESC, preventDefault: () => {} })
         expect(component.find(Option).length).toEqual(0)
       })
     })
@@ -112,14 +114,14 @@ describe('Select', () => {
       })
 
       it('highlights on keyboard down', () => {
-        inner.simulate('keyDown', { keyCode: keycode.DOWN })
+        inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
         expect(component.find(Option).first().prop('highlighted')).toEqual(true)
       })
 
       it('stops moving down at the last option', () => {
         const numberOfOptions = component.find(Option).length
         for (let i = 0; i <= numberOfOptions; i++) {
-          inner.simulate('keyDown', { keyCode: keycode.DOWN })
+          inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
         }
         expect(component.find(Option).last().prop('highlighted')).toEqual(true)
       })
@@ -128,12 +130,12 @@ describe('Select', () => {
     describe('selecting', () => {
       context('with keyboard', () => {
         beforeEach(() => {
-          inner.simulate('keyDown', { keyCode: keycode.DOWN })
-          inner.simulate('keyDown', { keyCode: keycode.DOWN })
+          inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
+          inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
         })
 
         it('invokes the onChange callback', () => {
-          inner.simulate('keyDown', { keyCode: keycode.ENTER })
+          inner.simulate('keyDown', { keyCode: keycode.ENTER, preventDefault: () => {} })
           expect(onChangeSpy).toHaveBeenCalledWith('jimi')
         })
       })
