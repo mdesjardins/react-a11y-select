@@ -54,7 +54,6 @@ There's still a lot more to do on this project and most of it is in flux. It nee
 
 * More tests (there basically aren't any right now)
 * Use Flow for typechecking
-* The double-use of `React.cloneElement` is not the most performant thing in the world, would like to fix that. :)
 * An `<OptGroup>` element would be nice.
 * Need to record a screencast of the screen reader in action.
 * Need to look at selecting a letter jumping in the list.
