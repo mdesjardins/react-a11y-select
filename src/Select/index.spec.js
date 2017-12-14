@@ -1,8 +1,9 @@
 import expect from 'expect'
 import React from 'react'
-import { shallow } from 'enzyme'
+import { mount, shallow } from 'enzyme'
 import Select from './'
 import Option from '../Option'
+import OptionWrapper from '../OptionWrapper'
 import * as keycode from '../keycodes'
 
 describe('Select', () => {
@@ -39,7 +40,7 @@ describe('Select', () => {
   context('that has options', () => {
     let inner
     beforeEach(() => {
-      component = shallow(
+      component = mount(
         <Select label="Deceased Rock Stars" onChange={onChangeSpy}>
           <Option value="elvis">Elvis Presley</Option>
           <Option value="jimi">Jimi Hendrix</Option>
@@ -109,13 +110,15 @@ describe('Select', () => {
       it('highlights on mouse hover', () => {
         // don't forget - you can't assign option to a variable and check it
         // because we clone the Option every time. :-o
-        component.find(Option).first().simulate('mouseOver')
-        expect(component.find(Option).first().prop('highlighted')).toEqual(true)
+        component.find(OptionWrapper).first().simulate('mouseOver')
+        const firstLi = component.find('li').first()
+        expect(firstLi.hasClass('ReactA11ySelect__ul__li--highlighted')).toEqual(true)
       })
 
       it('highlights on keyboard down', () => {
         inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
-        expect(component.find(Option).first().prop('highlighted')).toEqual(true)
+        const firstLi = component.find('li').first()
+        expect(firstLi.hasClass('ReactA11ySelect__ul__li--highlighted')).toEqual(true)
       })
 
       it('stops moving down at the last option', () => {
@@ -123,7 +126,8 @@ describe('Select', () => {
         for (let i = 0; i <= numberOfOptions; i++) {
           inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
         }
-        expect(component.find(Option).last().prop('highlighted')).toEqual(true)
+        const lastLi = component.find('li').last()
+        expect(lastLi.hasClass('ReactA11ySelect__ul__li--highlighted')).toEqual(true)
       })
     })
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Option from '../Option'
+import OptionWrapper from '../OptionWrapper'
 import PropTypes from 'prop-types'
 import uniqueId from 'lodash/uniqueId'
 import * as keycode from '../keycodes'
@@ -35,33 +36,20 @@ export default class Select extends Component {
     super()
     this.state = {
       open: false,
-      selectedIndex: null,
-      highlightedIndex: -1,
+      selectedKey: null,
+      highlightedKey: null,
     }
     this.options = []
   }
 
   componentWillMount() {
-    let index = -1
     const { children, initialValue } = this.props
-    const indexedOptions = React.Children.map(children, (child) => {
-      if (child.type === Option) {
-        index++
-        return React.cloneElement(child, {
-          onMouseOver: (e) => this.handleOptionHover(e, index),
-          onClick: (e) => this.handleOptionSelect(e, index),
-          index,
-        })
-      }
-      return null
-    })
-    this.options = React.Children.toArray(indexedOptions).filter((child) => !!child)
-
+    this.options = React.Children.toArray(children).filter((child) => child.type === Option)
     if (initialValue) {
       const initialOption = this.findOptionByValue(initialValue)
       if (initialOption) {
         this.setState({
-          selectedIndex: initialOption.props.index,
+          selectedKey: initialOption.key,
         })
       }
     }
@@ -94,7 +82,7 @@ export default class Select extends Component {
   }
 
   handleKeyDown = (e) => {
-    const { open, highlightedIndex } = this.state
+    const { open, highlightedKey } = this.state
     e.preventDefault()
     switch (e.keyCode) {
       case keycode.DOWN: {
@@ -103,17 +91,14 @@ export default class Select extends Component {
             open: true,
           })
         }
-        const nextIndex = highlightedIndex === React.Children.count(this.options) - 1 ?
-              highlightedIndex : highlightedIndex + 1
         this.setState({
-          highlightedIndex: nextIndex,
+          highlightedKey: this.nextKey(highlightedKey),
         })
         break
       }
       case keycode.UP: {
-        const previousIndex = highlightedIndex === 0 ? 0 : highlightedIndex - 1
         this.setState({
-          highlightedIndex: previousIndex,
+          highlightedKey: this.previousKey(highlightedKey),
         })
         break
       }
@@ -128,7 +113,7 @@ export default class Select extends Component {
       case keycode.SPACE:
       case keycode.ENTER: {
         if (open) {
-          this.handleOptionSelect(e, highlightedIndex)
+          this.handleOptionSelect(e, highlightedKey)
         } else {
           this.setState({
             open: true,
@@ -149,55 +134,78 @@ export default class Select extends Component {
     }
   }
 
-  handleOptionHover(e, hoverOverIndex) {
+  handleOptionHover(e, hoverOverKey) {
     this.setState({
-      highlightedIndex: hoverOverIndex,
+      highlightedKey: hoverOverKey,
     })
   }
 
-  handleOptionSelect(_e, clickedIndex) {
-    this.selectOption(clickedIndex)
+  handleOptionSelect(_e, clickedKey) {
+    this.selectOption(clickedKey)
   }
 
-  selectOption(index) {
+  selectOption(key) {
     const { onChange } = this.props
     this.setState({
       open: false,
-      selectedIndex: index,
-      highlightedIndex: null,
+      selectedKey: key,
+      highlightedKey: null,
     })
 
-    const selectedValue = this.findOptionByIndex(index).props.value
+    const selectedValue = this.findOptionByKey(key).props.value
     if (onChange) {
       onChange(selectedValue)
     }
-  }
-
-  findOptionByIndex(index) {
-    return this.options.find((option) => option.props.index === index)
   }
 
   findOptionByValue(value) {
     return this.options.find((option) => option.props.value === value)
   }
 
+  findOptionByKey(key) {
+    return this.options.find((option) => option.key === key)
+  }
+
+  nextKey(key) {
+    const currentIndex = this.options.findIndex((option) => option.key === key)
+    if (currentIndex === -1) {
+      // nothing selected yet, so select the first thing.
+      return this.options[0].key
+    } else if (currentIndex === this.options.length - 1) {
+      return this.options[currentIndex].key
+    }
+    return this.options[currentIndex + 1].key
+  }
+
+  previousKey(key) {
+    const currentIndex = this.options.findIndex((option) => option.key === key)
+    if (currentIndex === 0) {
+      return currentIndex
+    }
+    return this.options[currentIndex - 1].key
+  }
+
   renderButtonLabel(listId) {
-    const { selectedIndex } = this.state
+    const { selectedKey } = this.state
     const { placeholderText, indicator } = this.props
-    if (selectedIndex === null) {
+    // We use aria-hidden="true" to hide the down arrow, which
+    // might not have awesome support. We should maybe move to
+    // using a positioned background image.
+    if (selectedKey === null) {
       return (
         <span aria-controls={listId}>
           { placeholderText }
           <div
             className="ReactA11ySelect__button__arrow"
             dangerouslySetInnerHTML={{ __html: indicator }}
+            aria-hidden="true"
           />
         </span>
       )
     }
     return (
       <span aria-controls={listId}>
-        {this.findOptionByIndex(selectedIndex).props.children}
+        {this.findOptionByKey(selectedKey).props.children}
         <div
           className="ReactA11ySelect__button__arrow"
           dangerouslySetInnerHTML={{ __html: indicator }}
@@ -207,17 +215,19 @@ export default class Select extends Component {
   }
 
   renderChildren() {
-    const { highlightedIndex, selectedIndex } = this.state
-    const options = this.options.map((option) =>
-      React.cloneElement(option, {
-        id: `option-${option.props.index}`,
-        highlighted: (highlightedIndex === option.props.index ? true : undefined),
-        selected: (selectedIndex === option.props.index),
-        onMouseOver: (e) => this.handleOptionHover(e, option.props.index),
-        onClick: (e) => this.handleOptionSelect(e, option.props.index),
-      })
+    const { highlightedKey, selectedKey } = this.state
+    return this.options.map((option) =>
+      <OptionWrapper
+        onMouseOver={(e) => this.handleOptionHover(e, option.key)}
+        onClick={(e) => this.handleOptionSelect(e, option.key)}
+        key={`optionwrapper-${option.key}`}
+        optionKey={option.key}
+        selectedKey={selectedKey}
+        highlightedKey={highlightedKey}
+      >
+        {option}
+      </OptionWrapper>
     )
-    return <div>{options}</div>
   }
 
   render() {

@@ -1,30 +1,10 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 
-export default class Option extends Component {
-  static propTypes = {
-    value: PropTypes.any.isRequired,
-  }
+// World's lamest component. :) The real work happens in OptionWrapper.
+export const Option = (props) => (
+  <div>
+    {props.children}
+  </div>
+)
 
-  static defaultProps = {
-    highlighted: false,
-    selected: false,
-  }
-
-  render() {
-    const { highlighted, onMouseOver, onClick, id } = this.props
-    return (
-      <li
-        className={
-          `ReactA11ySelect__ul__li ${highlighted ? 'ReactA11ySelect__ul__li--highlighted' : ''}`
-        }
-        onMouseOver={onMouseOver}
-        onClick={onClick}
-        role="menuitem"
-        id={id}
-      >
-        {this.props.children}
-      </li>
-    )
-  }
-}
+export default Option
