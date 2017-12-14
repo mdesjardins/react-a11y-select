@@ -21,7 +21,7 @@ html {
   width: 90%;
 }
 
-main, complementary {
+.main, .complementary {
   flex: 1;
   width: 45%;
 }
