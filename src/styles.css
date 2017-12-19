@@ -1,3 +1,7 @@
+/* Aside from using BEM in here, we also use some pretty
+ * new CSS features like filters and variables, as opposed
+ * to using a CSS preprocessor. 
+ */
 .ReactA11ySelect {
   font: 1.0rem sans-serif;
   --border-color: #ddd;
@@ -69,6 +73,11 @@
 
 .ReactA11ySelect__ul__li--unselected {
   padding-left: 1.75rem;
+  padding-right: 2.25rem;
+}
+
+.ReactA11ySelect__ul__li--disabled {
+  filter: opacity(40%);
   padding-right: 2.25rem;
 }
 

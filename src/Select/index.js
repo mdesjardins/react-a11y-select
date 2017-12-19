@@ -93,15 +93,11 @@ export default class Select extends Component {
             open: true,
           })
         }
-        this.setState({
-          highlightedKey: this.nextKey(highlightedKey),
-        })
+        this.highlightOption(this.nextKey(highlightedKey))
         break
       }
       case keycode.UP: {
-        this.setState({
-          highlightedKey: this.previousKey(highlightedKey),
-        })
+        this.highlightOption(this.previousKey(highlightedKey))
         break
       }
       case keycode.ESC: {
@@ -137,13 +133,21 @@ export default class Select extends Component {
   }
 
   handleOptionHover(e, hoverOverKey) {
-    this.setState({
-      highlightedKey: hoverOverKey,
-    })
+    this.highlightOption(hoverOverKey)
   }
 
   handleOptionSelect(_e, clickedKey) {
     this.selectOption(clickedKey)
+  }
+
+  highlightOption(highlightedKey) {
+    const candidate = this.findOptionByKey(highlightedKey)
+    if (candidate.props.disabled) {
+      return
+    }
+    this.setState({
+      highlightedKey,
+    })
   }
 
   selectOption(key) {
@@ -170,21 +174,35 @@ export default class Select extends Component {
 
   nextKey(key) {
     const currentIndex = this.options.findIndex((option) => option.key === key)
+    const lastIndex = this.options.length - 1
+    let next
     if (currentIndex === -1) {
-      // nothing selected yet, so select the first thing.
-      return this.options[0].key
-    } else if (currentIndex === this.options.length - 1) {
-      return this.options[currentIndex].key
+      next = this.options[0]
+    } else if (currentIndex === lastIndex) {
+      next = this.options[currentIndex]
+    } else {
+      next = this.options[currentIndex + 1]
     }
-    return this.options[currentIndex + 1].key
+
+    if (next.props.disabled && currentIndex !== lastIndex) {
+      return this.nextKey(next.key)
+    }
+    return next.key
   }
 
   previousKey(key) {
     const currentIndex = this.options.findIndex((option) => option.key === key)
+    let previous
     if (currentIndex === 0) {
-      return currentIndex
+      previous = this.options[0]
+    } else {
+      previous = this.options[currentIndex - 1]
     }
-    return this.options[currentIndex - 1].key
+
+    if (previous.props.disabled && currentIndex !== 0) {
+      return this.previousKey(previous.key)
+    }
+    return previous.key
   }
 
   renderButtonLabel() {
@@ -215,6 +233,7 @@ export default class Select extends Component {
         highlightedKey={highlightedKey}
         label={option.props.label}
         value={option.props.value}
+        disabled={option.props.disabled}
         onMouseOver={(e) => this.handleOptionHover(e, option.key)}
         onClick={(e) => this.handleOptionSelect(e, option.key)}
       >

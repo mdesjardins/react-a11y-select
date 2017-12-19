@@ -156,5 +156,106 @@ describe('Select', () => {
         })
       })
     })
+
+    describe('disabled options', () => {
+      // We do special cases for first/last because of the danger of blowing our stack
+      // from recursive calls to nextKey/previousKey
+      context('when the first option is disabled', () => {
+        beforeEach(() => {
+          component = mount(
+            <Select label="Deceased Rock Stars" onChange={onChangeSpy}>
+              <Option value="elvis" disabled>Elvis Presley</Option>
+              <Option value="jimi">Jimi Hendrix</Option>
+              <Option value="john">John Lennon</Option>
+              <Option value="kurt">Kurt Cobain</Option>
+            </Select>
+          )
+          inner = component.find('.ReactA11ySelect__button')
+          inner.simulate('keyDown', { keyCode: keycode.ENTER, preventDefault: () => {} })
+        })
+
+        it('skips over the when keying down first option', () => {
+          inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
+          const first = component.find(OptionWrapper).first()
+          const second = component.find(OptionWrapper).at(1)
+          expect(first.find('li').hasClass('ReactA11ySelect__ul__li--disabled')).toEqual(true)
+          expect(second.find('li').hasClass('ReactA11ySelect__ul__li--highlighted')).toEqual(true)
+        })
+
+        it('does nothing if keying up into the first option', () => {
+          inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
+          inner.simulate('keyDown', { keyCode: keycode.UP, preventDefault: () => {} })
+          const first = component.find(OptionWrapper).first()
+          const second = component.find(OptionWrapper).at(1)
+          expect(first.find('li').hasClass('ReactA11ySelect__ul__li--disabled')).toEqual(true)
+          expect(second.find('li').hasClass('ReactA11ySelect__ul__li--highlighted')).toEqual(true)
+        })
+      })
+
+      context('when the last option is disabled', () => {
+        beforeEach(() => {
+          component = mount(
+            <Select label="Deceased Rock Stars" onChange={onChangeSpy}>
+              <Option value="elvis">Elvis Presley</Option>
+              <Option value="jimi">Jimi Hendrix</Option>
+              <Option value="john">John Lennon</Option>
+              <Option value="kurt" disabled>Kurt Cobain</Option>
+            </Select>
+          )
+          inner = component.find('.ReactA11ySelect__button')
+          inner.simulate('keyDown', { keyCode: keycode.ENTER, preventDefault: () => {} })
+        })
+
+        it('does not key down into the last option', () => {
+          inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
+          inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
+          inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
+          inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
+          const penultimate = component.find(OptionWrapper).at(2)
+          const last = component.find(OptionWrapper).last()
+          expect(penultimate.find('li').hasClass('ReactA11ySelect__ul__li--highlighted'))
+            .toEqual(true)
+          expect(last.find('li').hasClass('ReactA11ySelect__ul__li--disabled')).toEqual(true)
+        })
+      })
+
+      context('when a middle option is disabled', () => {
+        beforeEach(() => {
+          component = mount(
+            <Select label="Deceased Rock Stars" onChange={onChangeSpy}>
+              <Option value="elvis">Elvis Presley</Option>
+              <Option value="jimi" disabled>Jimi Hendrix</Option>
+              <Option value="john">John Lennon</Option>
+              <Option value="kurt">Kurt Cobain</Option>
+            </Select>
+          )
+          inner = component.find('.ReactA11ySelect__button')
+          inner.simulate('keyDown', { keyCode: keycode.ENTER, preventDefault: () => {} })
+        })
+
+        it('skips over the when keying down first option', () => {
+          inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
+          inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
+          const jimi = component.find(OptionWrapper).at(1)
+          const john = component.find(OptionWrapper).at(2)
+          expect(jimi.find('li').hasClass('ReactA11ySelect__ul__li--disabled')).toEqual(true)
+          expect(john.find('li').hasClass('ReactA11ySelect__ul__li--highlighted')).toEqual(true)
+        })
+
+        it('does nothing if keying up into the first option', () => {
+          inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
+          inner.simulate('keyDown', { keyCode: keycode.UP, preventDefault: () => {} })
+          inner.simulate('keyUp', { keyCode: keycode.UP, preventDefault: () => {} })
+          const elvis = component.find(OptionWrapper).first()
+          expect(elvis.find('li').hasClass('ReactA11ySelect__ul__li--highlighted')).toEqual(true)
+        })
+
+        it('does not highlight a disabled option if it mouses over it', () => {
+          component.find(OptionWrapper).at(1).simulate('mouseOver')
+          const firstLi = component.find('li').first()
+          expect(firstLi.hasClass('ReactA11ySelect__ul__li--highlighted')).toEqual(false)
+        })
+      })
+    })
   })
 })

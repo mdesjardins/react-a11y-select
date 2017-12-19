@@ -9,7 +9,7 @@ export const Option = (props) => (
 )
 
 Option.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
 }
 
 export default Option

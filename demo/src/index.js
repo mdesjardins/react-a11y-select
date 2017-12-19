@@ -36,7 +36,7 @@ class Demo extends Component {
           <div className="main" role="main">
             <h2>Live Demo</h2>
             <Select label="Test method" onChange={this.handleSelectChange}>
-              <Option value="apple">
+              <Option value="apple" disabled>
                 <img src="apple.png" role="presentation" />
                 Apple
               </Option>
@@ -56,7 +56,7 @@ class Demo extends Component {
                 <img src="orange.png" role="presentation" />
                 Orange
               </Option>
-              <Option value="peach">
+              <Option value="peach" disabled>
                 <img src="peach.png" role="presentation" />
                 Peach
               </Option>
@@ -64,7 +64,7 @@ class Demo extends Component {
                 <img src="pineapple.png" role="presentation" />
                 Pineapple
               </Option>
-              <Option value="watermelon">
+              <Option value="watermelon" disabled>
                 <img src="watermelon.png" role="presentation" />
                 Watermelon
               </Option>
@@ -99,7 +99,7 @@ class Demo extends Component {
      <img src="orange.png" role="presentation" />
      Orange
    </Option>
-   <Option value="peach">
+   <Option value="peach" disabled>
      <img src="peach.png" role="presentation" />
      Peach
    </Option>
