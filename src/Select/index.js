@@ -22,13 +22,15 @@ export default class Select extends Component {
       return null
     },
     placeholderText: PropTypes.string,
-    indicator: PropTypes.string,
     initialValue: PropTypes.string,
+    buttonId: PropTypes.string,
+    listId: PropTypes.string,
     onChange: PropTypes.func,
   }
   static defaultProps = {
     placeholderText: 'Please choose...',
-    indicator: '&#x25be;',
+    buttonId: uniqueId('react-a11y-button-'),
+    listId: uniqueId('react-a11y-list-'),
     onChange: (_value) => {},
   }
 
@@ -185,31 +187,19 @@ export default class Select extends Component {
     return this.options[currentIndex - 1].key
   }
 
-  renderButtonLabel(listId) {
+  renderButtonLabel() {
     const { selectedKey } = this.state
-    const { placeholderText, indicator } = this.props
-    // We use aria-hidden="true" to hide the down arrow, which
-    // might not have awesome support. We should maybe move to
-    // using a positioned background image.
+    const { placeholderText, listId } = this.props
     if (selectedKey === null) {
       return (
         <span aria-controls={listId}>
           { placeholderText }
-          <div
-            className="ReactA11ySelect__button__arrow"
-            dangerouslySetInnerHTML={{ __html: indicator }}
-            aria-hidden="true"
-          />
         </span>
       )
     }
     return (
       <span aria-controls={listId}>
         {this.findOptionByKey(selectedKey).props.children}
-        <div
-          className="ReactA11ySelect__button__arrow"
-          dangerouslySetInnerHTML={{ __html: indicator }}
-        />
       </span>
     )
   }
@@ -218,12 +208,15 @@ export default class Select extends Component {
     const { highlightedKey, selectedKey } = this.state
     return this.options.map((option) =>
       <OptionWrapper
-        onMouseOver={(e) => this.handleOptionHover(e, option.key)}
-        onClick={(e) => this.handleOptionSelect(e, option.key)}
         key={`optionwrapper-${option.key}`}
         optionKey={option.key}
         selectedKey={selectedKey}
+        optionId={`react-a11y-option-${option.key}`}
         highlightedKey={highlightedKey}
+        label={option.props.label}
+        value={option.props.value}
+        onMouseOver={(e) => this.handleOptionHover(e, option.key)}
+        onClick={(e) => this.handleOptionSelect(e, option.key)}
       >
         {option}
       </OptionWrapper>
@@ -231,8 +224,11 @@ export default class Select extends Component {
   }
 
   render() {
-    const { open } = this.state
-    const listId = `react-a11y-select-${uniqueId()}`
+    const { open, highlightedKey } = this.state
+    const { listId, buttonId } = this.props
+    const highlightedId =
+       highlightedKey ? `react-a11y-option-${highlightedKey}` : undefined
+
     return (
       <div
         className="ReactA11ySelect"
@@ -243,13 +239,16 @@ export default class Select extends Component {
           className={
             `ReactA11ySelect__button ${this.state.open ? 'ReactA11ySelect__button--open' : ''}`
           }
+          id={buttonId}
           role="button"
           aria-haspopup="true"
           aria-expanded={open ? true : undefined} // ARIA recommends not excluding over false
+          aria-activedescendant={highlightedId}
           onKeyDown={this.handleKeyDown}
           onClick={this.handleClick}
         >
           {this.renderButtonLabel(listId)}
+          <span className="ReactA11ySelect__button__arrow-indicator" aria-hidden="true" />
         </button>
         {this.state.open &&
           <ul id={listId} role="menu" className="ReactA11ySelect__ul">

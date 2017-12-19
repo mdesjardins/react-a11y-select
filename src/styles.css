@@ -14,7 +14,7 @@
   text-align: left;
   display: inline;
   margin: 0;
-  padding: 0.5rem 1.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 1.5rem;
 }
 
 .ReactA11ySelect__button:hover {
@@ -27,11 +27,11 @@
   border-radius: 0.25rem;
 }
 
-.ReactA11ySelect__button__arrow {
-  display: inline-block;
-  font-size: 1.2rem;
-  margin: 0 -0.2rem 0.4rem 0.2rem;
-  vertical-align: middle;
+.ReactA11ySelect__button__arrow-indicator:after {
+  font-size: 1.50rem;
+  content: '\25be';
+  margin-left: 1.0rem;
+  line-height: 0;
 }
 
 .ReactA11ySelect__ul {
@@ -52,7 +52,7 @@
 
 .ReactA11ySelect__ul__li {
   position: relative;
-  padding: 0.5rem 1.5rem;
+  padding: 0.25rem 0.75rem;
   cursor: pointer;
   -webkit-transition: all 0.2s;
   -moz-transition: all 0.2s;
@@ -65,5 +65,19 @@
 .ReactA11ySelect__ul__li--highlighted {
   background-color: var(--highlighted-background-color);
   color: var(--highlighted-foreground-color);
+}
+
+.ReactA11ySelect__ul__li--unselected {
+  padding-left: 1.75rem;
+  padding-right: 2.25rem;
+}
+
+.ReactA11ySelect__ul__li--selected > * {
+  display: inline;
+}
+
+.ReactA11ySelect__ul__li__selected-indicator:after {
+  content: "\2714";
+  float: "left";
 }
 

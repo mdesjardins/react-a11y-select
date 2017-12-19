@@ -1,10 +1,15 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-// World's lamest component. :) The real work happens in OptionWrapper.
+// World's most unintersting component. :) The real work happens in OptionWrapper.
 export const Option = (props) => (
   <div>
     {props.children}
   </div>
 )
+
+Option.propTypes = {
+  label: PropTypes.string.isRequired,
+}
 
 export default Option
