@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Option from '../Option'
 import OptionWrapper from '../OptionWrapper'
+import SelectButton from '../SelectButton'
 import PropTypes from 'prop-types'
 import uniqueId from 'lodash/uniqueId'
 import * as keycode from '../keycodes'
@@ -205,23 +206,6 @@ export default class Select extends Component {
     return previous.key
   }
 
-  renderButtonLabel() {
-    const { selectedKey } = this.state
-    const { placeholderText, listId } = this.props
-    if (selectedKey === null) {
-      return (
-        <span aria-controls={listId}>
-          { placeholderText }
-        </span>
-      )
-    }
-    return (
-      <span aria-controls={listId}>
-        {this.findOptionByKey(selectedKey).props.children}
-      </span>
-    )
-  }
-
   renderChildren() {
     const { highlightedKey, selectedKey } = this.state
     return this.options.map((option) =>
@@ -243,8 +227,8 @@ export default class Select extends Component {
   }
 
   render() {
-    const { open, highlightedKey } = this.state
-    const { listId, buttonId } = this.props
+    const { open, highlightedKey, selectedKey } = this.state
+    const { listId, buttonId, placeholderText } = this.props
     const highlightedId =
        highlightedKey ? `react-a11y-option-${highlightedKey}` : undefined
 
@@ -253,22 +237,17 @@ export default class Select extends Component {
         className="ReactA11ySelect"
         ref={(wrapperDiv) => { this.wrapperDiv = wrapperDiv }}
       >
-        <button
-          tabIndex="0"
-          className={
-            `ReactA11ySelect__button ${this.state.open ? 'ReactA11ySelect__button--open' : ''}`
-          }
-          id={buttonId}
-          role="button"
-          aria-haspopup="true"
-          aria-expanded={open ? true : undefined} // ARIA recommends not excluding over false
-          aria-activedescendant={highlightedId}
+        <SelectButton
+          buttonId={buttonId}
+          listId={listId}
+          highlightedId={highlightedId}
+          open={open}
           onKeyDown={this.handleKeyDown}
           onClick={this.handleClick}
         >
-          {this.renderButtonLabel(listId)}
-          <span className="ReactA11ySelect__button__arrow-indicator" aria-hidden="true" />
-        </button>
+          {!selectedKey && placeholderText}
+          {!!selectedKey && this.findOptionByKey(selectedKey).props.children}
+        </SelectButton>
         {this.state.open &&
           <ul id={listId} role="menu" className="ReactA11ySelect__ul">
             {this.renderChildren()}

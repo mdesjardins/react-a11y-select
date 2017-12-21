@@ -1,6 +1,6 @@
 /* Aside from using BEM in here, we also use some pretty
  * new CSS features like filters and variables, as opposed
- * to using a CSS preprocessor. 
+ * to using a CSS preprocessor.
  */
 .ReactA11ySelect {
   font: 1.0rem sans-serif;
@@ -39,6 +39,7 @@
 }
 
 .ReactA11ySelect__ul {
+  background-color: var(--bacground-color);
   border-radius: 0.5rem;
   margin-top: 0.5rem;
   padding: 0;
@@ -89,4 +90,3 @@
   content: "\2714";
   float: "left";
 }
-
