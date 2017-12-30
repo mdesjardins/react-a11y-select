@@ -55,6 +55,14 @@
   z-index: 1;
 }
 
+.ReactA11ySelect__ul--open {
+  display: block;
+}
+
+.ReactA11ySelect__ul--closed {
+  display: none;
+}
+
 .ReactA11ySelect__ul__li {
   position: relative;
   padding: 0.25rem 0.75rem;

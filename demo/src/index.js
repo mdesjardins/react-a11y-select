@@ -35,41 +35,43 @@ class Demo extends Component {
         <div className="container">
           <div className="main" role="main">
             <h2>Live Demo</h2>
-            <Select label="Test method" onChange={this.handleSelectChange}>
-              <Option value="apple">
-                <img src="apple.png" role="presentation" />
-                Apple
-              </Option>
-              <Option value="cherry">
-                <img src="cherry.png" role="presentation" />
-                Cherry
-              </Option>
-              <Option value="grape">
-                <img src="grape.png" role="presentation" />
-                Grape
-              </Option>
-              <Option value="lemon">
-                <img src="lemon.png" role="presentation" />
-                Lemon
-              </Option>
-              <Option value="orange">
-                <img src="orange.png" role="presentation" />
-                Orange
-              </Option>
-              <Option value="peach" disabled>
-                <img src="peach.png" role="presentation" />
-                Peach
-              </Option>
-              <Option value="pineapple">
-                <img src="pineapple.png" role="presentation" />
-                Pineapple
-              </Option>
-              <Option value="watermelon">
-                <img src="watermelon.png" role="presentation" />
-                Watermelon
-              </Option>
-            </Select>
-            <p>
+            <form>
+              <Select label="Test method" onChange={this.handleSelectChange}>
+                <Option value="apple">
+                  <img src="apple.png" role="presentation" />
+                  Apple
+                </Option>
+                <Option value="cherry">
+                  <img src="cherry.png" role="presentation" />
+                  Cherry
+                </Option>
+                <Option value="grape">
+                  <img src="grape.png" role="presentation" />
+                  Grape
+                </Option>
+                <Option value="lemon">
+                  <img src="lemon.png" role="presentation" />
+                  Lemon
+                </Option>
+                <Option value="orange">
+                  <img src="orange.png" role="presentation" />
+                  Orange
+                </Option>
+                <Option value="peach" disabled>
+                  <img src="peach.png" role="presentation" />
+                  Peach
+                </Option>
+                <Option value="pineapple">
+                  <img src="pineapple.png" role="presentation" />
+                  Pineapple
+                </Option>
+                <Option value="watermelon">
+                  <img src="watermelon.png" role="presentation" />
+                  Watermelon
+                </Option>
+              </Select>
+            </form>
+            <p aria-live="true">
               You selected: <em>{this.state.selection}</em>
             </p>
           </div>

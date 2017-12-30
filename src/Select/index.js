@@ -66,8 +66,10 @@ export default class Select extends Component {
     document.removeEventListener('mousedown', this.handleClickOutside)
   }
 
-  handleClick = (_e) => {
+  handleClick = (e) => {
     const { open } = this.state
+    e.preventDefault()
+    e.stopPropagation()
     this.setState({
       open: !open,
     })
@@ -77,22 +79,22 @@ export default class Select extends Component {
     if (this.wrapperDiv && !this.wrapperDiv.contains(e.target)) {
       const { open } = this.state
       if (open) {
-        this.setState({
-          open: false,
-        })
+        this.updateExpandedState(false)
       }
     }
   }
 
   handleKeyDown = (e) => {
-    const { open, highlightedKey } = this.state
-    e.preventDefault()
+    const { open, selectedKey, highlightedKey } = this.state
+    if (e.keyCode !== keycode.TAB) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+
     switch (e.keyCode) {
       case keycode.DOWN: {
         if (!open) {
-          this.setState({
-            open: true,
-          })
+          this.updateExpandedState(true)
         }
         this.highlightOption(this.nextKey(highlightedKey))
         break
@@ -103,9 +105,7 @@ export default class Select extends Component {
       }
       case keycode.ESC: {
         if (open) {
-          this.setState({
-            open: false,
-          })
+          this.updateExpandedState(false)
         }
         break
       }
@@ -114,23 +114,22 @@ export default class Select extends Component {
         if (open) {
           this.handleOptionSelect(e, highlightedKey)
         } else {
+          this.updateExpandedState(true)
           this.setState({
-            open: true,
-            highlightedIndex: 0,
+            highlightedKey: selectedKey,
           })
         }
         break
       }
       case keycode.TAB: {
         if (open) {
-          this.setState({
-            open: false,
-          })
+          this.updateExpandedState(false)
         }
         break
       }
       default:
     }
+    return false
   }
 
   handleOptionHover(e, hoverOverKey) {
@@ -139,6 +138,14 @@ export default class Select extends Component {
 
   handleOptionSelect(_e, clickedKey) {
     this.selectOption(clickedKey)
+  }
+
+  handleOptionWrapperRef(el) {
+    if (el) {
+      if (el.getAttribute('tabindex') === '0') {
+        el.focus()
+      }
+    }
   }
 
   highlightOption(highlightedKey) {
@@ -153,8 +160,8 @@ export default class Select extends Component {
 
   selectOption(key) {
     const { onChange } = this.props
+    this.updateExpandedState(false)
     this.setState({
-      open: false,
       selectedKey: key,
       highlightedKey: null,
     })
@@ -163,6 +170,12 @@ export default class Select extends Component {
     if (onChange) {
       onChange(selectedValue)
     }
+  }
+
+  updateExpandedState(open) {
+    this.setState({
+      open
+    })
   }
 
   findOptionByValue(value) {
@@ -200,7 +213,7 @@ export default class Select extends Component {
       previous = this.options[currentIndex - 1]
     }
 
-    if (previous.props.disabled && currentIndex !== 0) {
+    if (currentIndex !== 0 && previous.props.disabled) {
       return this.previousKey(previous.key)
     }
     return previous.key
@@ -218,8 +231,10 @@ export default class Select extends Component {
         label={option.props.label}
         value={option.props.value}
         disabled={option.props.disabled}
+        onOptionWrapperRef={this.handleOptionWrapperRef}
         onMouseOver={(e) => this.handleOptionHover(e, option.key)}
         onClick={(e) => this.handleOptionSelect(e, option.key)}
+        onKeyDown={(e) => this.handleKeyDown(e)}
       >
         {option}
       </OptionWrapper>
@@ -248,10 +263,17 @@ export default class Select extends Component {
           {!selectedKey && placeholderText}
           {!!selectedKey && this.findOptionByKey(selectedKey).props.children}
         </SelectButton>
-        {this.state.open &&
-          <ul id={listId} role="menu" className="ReactA11ySelect__ul">
-            {this.renderChildren()}
-          </ul>}
+        <ul
+          id={listId}
+          role="menu"
+          className={
+            `ReactA11ySelect__ul
+             ${open ? 'ReactA11ySelect__ul--open' : 'ReactA11ySelect__ul--closed'}`}
+          aria-hidden={open ? undefined : true}
+          aria-activedescendant={highlightedId}
+        >
+          {this.renderChildren()}
+        </ul>
       </div>
     )
   }

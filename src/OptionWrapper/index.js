@@ -1,10 +1,11 @@
 import React from 'react'
 
 // This is a private, not intended for use except by the Select
-// component for wrapping Options (TODO: Make into a HOC for giggles?)
+// component for wrapping Options
+// TODO refactor me I'm hideous!
 export const OptionWrapper = (props) => {
-  const { onMouseOver, onClick, selectedKey, highlightedKey, children,
-          optionKey, label, value, optionId, disabled, ...others } = props
+  const { onMouseOver, onClick, onOptionWrapperRef, selectedKey, highlightedKey, children,
+          optionKey, label, value, optionId, disabled, highlightedRef, ...others } = props
   const highlighted = optionKey === highlightedKey
   const selected = optionKey === selectedKey
   const classes =
@@ -15,13 +16,15 @@ export const OptionWrapper = (props) => {
   return (
     <li
       id={optionId}
-      onMouseOver={disabled ? undefined : onMouseOver}
-      onClick={disabled ? undefined : onClick}
       className={`ReactA11ySelect__ul__li ${classes}`}
       aria-checked={selected ? true : undefined}
       aria-disabled={disabled ? true : undefined}
       aria-label={ariaLabel}
+      tabIndex={highlighted ? "0" : "-1"}
       role="menuitemradio"
+      ref={(e) => onOptionWrapperRef(e)}
+      onMouseOver={disabled ? undefined : onMouseOver}
+      onClick={disabled ? undefined : onClick}
       {...others}
     >
       {selected &&
@@ -30,5 +33,4 @@ export const OptionWrapper = (props) => {
     </li>
   )
 }
-
 export default OptionWrapper
