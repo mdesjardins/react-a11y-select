@@ -19,22 +19,6 @@ describe('Select', () => {
     it('renders the wrapper div element', () => {
       expect(component.find('.ReactA11ySelect').length).toEqual(1)
     })
-
-    describe('button element', () => {
-      let button
-      beforeEach(() => button = component.find('.ReactA11ySelect__button'))
-      it('renders a div with a button role', () => {
-        expect(button.prop('role')).toEqual('button')
-      })
-
-      it('sets aria-haspopup to true', () => {
-        expect(button.prop('aria-haspopup')).toEqual('true')
-      })
-
-      it('does not set an aria-expanded prop', () => {
-        expect(button.prop('aria-expanded')).toBe(undefined)
-      })
-    })
   })
 
   context('that has options', () => {
@@ -60,22 +44,30 @@ describe('Select', () => {
     describe('open', () => {
       it('opens when it receives a click', () => {
         inner.simulate('click')
-        expect(component.find(Option).length).toEqual(4)
+        expect(component.find('ul').hasClass('ReactA11ySelect__ul--open')).toEqual(true)
+        expect(component.find('ul').hasClass('ReactA11ySelect__ul--closed')).toEqual(false)
+        expect(component.find('ul').prop('aria-hidden')).toEqual(undefined)
       })
 
       it('opens when it receives a down arrow', () => {
         inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
-        expect(component.find(Option).length).toEqual(4)
+        expect(component.find('ul').hasClass('ReactA11ySelect__ul--open')).toEqual(true)
+        expect(component.find('ul').hasClass('ReactA11ySelect__ul--closed')).toEqual(false)
+        expect(component.find('ul').prop('aria-hidden')).toEqual(undefined)
       })
 
       it('opens when it receives an enter key', () => {
         inner.simulate('keyDown', { keyCode: keycode.ENTER, preventDefault: () => {} })
-        expect(component.find(Option).length).toEqual(4)
+        expect(component.find('ul').hasClass('ReactA11ySelect__ul--open')).toEqual(true)
+        expect(component.find('ul').hasClass('ReactA11ySelect__ul--closed')).toEqual(false)
+        expect(component.find('ul').prop('aria-hidden')).toEqual(undefined)
       })
 
       it('opens when it receives a space', () => {
         inner.simulate('keyDown', { keyCode: keycode.SPACE, preventDefault: () => {} })
-        expect(component.find(Option).length).toEqual(4)
+        expect(component.find('ul').hasClass('ReactA11ySelect__ul--open')).toEqual(true)
+        expect(component.find('ul').hasClass('ReactA11ySelect__ul--closed')).toEqual(false)
+        expect(component.find('ul').prop('aria-hidden')).toEqual(undefined)
       })
     })
 
@@ -85,7 +77,9 @@ describe('Select', () => {
 
         it('closes when you click a second time', () => {
           inner.simulate('click')
-          expect(component.find(Option).length).toEqual(0)
+          expect(component.find('ul').hasClass('ReactA11ySelect__ul--open')).toEqual(false)
+          expect(component.find('ul').hasClass('ReactA11ySelect__ul--closed')).toEqual(true)
+          expect(component.find('ul').prop('aria-hidden')).toEqual(true)
         })
 
         // TODO not sure how to test this?
@@ -100,7 +94,9 @@ describe('Select', () => {
 
       it('closes when you key ESC', () => {
         inner.simulate('keydown', { keyCode: keycode.ESC, preventDefault: () => {} })
-        expect(component.find(Option).length).toEqual(0)
+        expect(component.find('ul').hasClass('ReactA11ySelect__ul--open')).toEqual(false)
+        expect(component.find('ul').hasClass('ReactA11ySelect__ul--closed')).toEqual(true)
+        expect(component.find('ul').prop('aria-hidden')).toEqual(true)
       })
     })
 
