@@ -141,7 +141,7 @@ describe('Select', () => {
       })
     })
 
-    describe.only('disabled options', () => {
+    describe('disabled options', () => {
       // We do special cases for first/last because of the danger of blowing our stack
       // from recursive calls to nextKey/previousKey
       context('when the first option is disabled', () => {
@@ -197,9 +197,8 @@ describe('Select', () => {
           inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
           const penultimate = component.find(OptionWrapper).at(2)
           const last = component.find(OptionWrapper).last()
-          expect(penultimate.find('li').hasClass('ReactA11ySelect__ul__li--highlighted'))
-            .toEqual(true)
-          expect(last.find('li').hasClass('ReactA11ySelect__ul__li--disabled')).toEqual(true)
+          expect(penultimate.find('li').prop('tabIndex')).toEqual('0')
+          expect(last.find('li').prop('disabled')).toEqual(true)
         })
       })
 
@@ -222,8 +221,8 @@ describe('Select', () => {
           inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
           const jimi = component.find(OptionWrapper).at(1)
           const john = component.find(OptionWrapper).at(2)
-          expect(jimi.find('li').hasClass('ReactA11ySelect__ul__li--disabled')).toEqual(true)
-          expect(john.find('li').hasClass('ReactA11ySelect__ul__li--highlighted')).toEqual(true)
+          expect(jimi.find('li').prop('disabled')).toEqual(true)
+          expect(john.find('li').prop('tabIndex')).toEqual('0')
         })
 
         it('does nothing if keying up into the first option', () => {
@@ -231,7 +230,7 @@ describe('Select', () => {
           inner.simulate('keyDown', { keyCode: keycode.UP, preventDefault: () => {} })
           inner.simulate('keyUp', { keyCode: keycode.UP, preventDefault: () => {} })
           const elvis = component.find(OptionWrapper).first()
-          expect(elvis.find('li').hasClass('ReactA11ySelect__ul__li--highlighted')).toEqual(true)
+          expect(elvis.find('li').prop('tabIndex')).toEqual('0')
         })
 
         it('does not highlight a disabled option if it mouses over it', () => {

@@ -43,8 +43,8 @@ describe('OptionWrapper', () => {
       props = { ...props, highlightedKey: '123', optionKey: '123' }
     })
 
-    it('should apply the highlighting class to the li', () => {
-      expect((component).find('li').hasClass('ReactA11ySelect__ul__li--highlighted')).toEqual(true)
+    it('should apply the focus to the li via tabindex', () => {
+      expect((component).find('li').prop('tabIndex')).toEqual('0')
     })
 
     context('when disabled', () => {
