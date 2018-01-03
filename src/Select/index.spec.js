@@ -44,29 +44,21 @@ describe('Select', () => {
     describe('open', () => {
       it('opens when it receives a click', () => {
         inner.simulate('click')
-        expect(component.find('ul').hasClass('ReactA11ySelect__ul--open')).toEqual(true)
-        expect(component.find('ul').hasClass('ReactA11ySelect__ul--closed')).toEqual(false)
         expect(component.find('ul').prop('aria-hidden')).toEqual(undefined)
       })
 
       it('opens when it receives a down arrow', () => {
         inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
-        expect(component.find('ul').hasClass('ReactA11ySelect__ul--open')).toEqual(true)
-        expect(component.find('ul').hasClass('ReactA11ySelect__ul--closed')).toEqual(false)
         expect(component.find('ul').prop('aria-hidden')).toEqual(undefined)
       })
 
       it('opens when it receives an enter key', () => {
         inner.simulate('keyDown', { keyCode: keycode.ENTER, preventDefault: () => {} })
-        expect(component.find('ul').hasClass('ReactA11ySelect__ul--open')).toEqual(true)
-        expect(component.find('ul').hasClass('ReactA11ySelect__ul--closed')).toEqual(false)
         expect(component.find('ul').prop('aria-hidden')).toEqual(undefined)
       })
 
       it('opens when it receives a space', () => {
         inner.simulate('keyDown', { keyCode: keycode.SPACE, preventDefault: () => {} })
-        expect(component.find('ul').hasClass('ReactA11ySelect__ul--open')).toEqual(true)
-        expect(component.find('ul').hasClass('ReactA11ySelect__ul--closed')).toEqual(false)
         expect(component.find('ul').prop('aria-hidden')).toEqual(undefined)
       })
     })
@@ -77,8 +69,6 @@ describe('Select', () => {
 
         it('closes when you click a second time', () => {
           inner.simulate('click')
-          expect(component.find('ul').hasClass('ReactA11ySelect__ul--open')).toEqual(false)
-          expect(component.find('ul').hasClass('ReactA11ySelect__ul--closed')).toEqual(true)
           expect(component.find('ul').prop('aria-hidden')).toEqual(true)
         })
 
@@ -94,8 +84,6 @@ describe('Select', () => {
 
       it('closes when you key ESC', () => {
         inner.simulate('keydown', { keyCode: keycode.ESC, preventDefault: () => {} })
-        expect(component.find('ul').hasClass('ReactA11ySelect__ul--open')).toEqual(false)
-        expect(component.find('ul').hasClass('ReactA11ySelect__ul--closed')).toEqual(true)
         expect(component.find('ul').prop('aria-hidden')).toEqual(true)
       })
     })
@@ -108,13 +96,13 @@ describe('Select', () => {
         // because we clone the Option every time. :-o
         component.find(OptionWrapper).first().simulate('mouseOver')
         const firstLi = component.find('li').first()
-        expect(firstLi.hasClass('ReactA11ySelect__ul__li--highlighted')).toEqual(true)
+        expect(firstLi.prop('tabIndex')).toEqual('0')
       })
 
       it('highlights on keyboard down', () => {
         inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
         const firstLi = component.find('li').first()
-        expect(firstLi.hasClass('ReactA11ySelect__ul__li--highlighted')).toEqual(true)
+        expect(firstLi.prop('tabIndex')).toEqual('0')
       })
 
       it('stops moving down at the last option', () => {
@@ -123,7 +111,7 @@ describe('Select', () => {
           inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
         }
         const lastLi = component.find('li').last()
-        expect(lastLi.hasClass('ReactA11ySelect__ul__li--highlighted')).toEqual(true)
+        expect(lastLi.prop('tabIndex')).toEqual('0')
       })
     })
 
@@ -153,7 +141,7 @@ describe('Select', () => {
       })
     })
 
-    describe('disabled options', () => {
+    describe.only('disabled options', () => {
       // We do special cases for first/last because of the danger of blowing our stack
       // from recursive calls to nextKey/previousKey
       context('when the first option is disabled', () => {
@@ -174,8 +162,8 @@ describe('Select', () => {
           inner.simulate('keyDown', { keyCode: keycode.DOWN, preventDefault: () => {} })
           const first = component.find(OptionWrapper).first()
           const second = component.find(OptionWrapper).at(1)
-          expect(first.find('li').hasClass('ReactA11ySelect__ul__li--disabled')).toEqual(true)
-          expect(second.find('li').hasClass('ReactA11ySelect__ul__li--highlighted')).toEqual(true)
+          expect(first.find('li').prop('disabled')).toEqual(true)
+          expect(second.find('li').prop('tabIndex')).toEqual('0')
         })
 
         it('does nothing if keying up into the first option', () => {
@@ -183,8 +171,8 @@ describe('Select', () => {
           inner.simulate('keyDown', { keyCode: keycode.UP, preventDefault: () => {} })
           const first = component.find(OptionWrapper).first()
           const second = component.find(OptionWrapper).at(1)
-          expect(first.find('li').hasClass('ReactA11ySelect__ul__li--disabled')).toEqual(true)
-          expect(second.find('li').hasClass('ReactA11ySelect__ul__li--highlighted')).toEqual(true)
+          expect(first.find('li').prop('disabled')).toEqual(true)
+          expect(second.find('li').prop('tabIndex')).toEqual('0')
         })
       })
 

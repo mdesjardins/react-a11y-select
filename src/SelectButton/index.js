@@ -6,14 +6,12 @@ export const SelectButton = (props) => {
     children } = props
   return (
     <button
-      className={
-        `ReactA11ySelect__button ${open ? 'ReactA11ySelect__button--open' : ''}`
-      }
+      className="ReactA11ySelect__button"
       id={buttonId}
-      role="button"  // menu seems to work better here on NVDA?
+      role="button"
       tabIndex={open ? "-1" : "0"}
       aria-haspopup="true"
-      aria-expanded={open ? true : undefined} // ARIA recommends not excluding over false
+      aria-expanded={open ? true : undefined} // ARIA recommends not including over false
       aria-controls={listId}
       onKeyDown={onKeyDown}
       onClick={onClick}

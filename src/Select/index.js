@@ -266,9 +266,7 @@ export default class Select extends Component {
         <ul
           id={listId}
           role="menu"
-          className={
-            `ReactA11ySelect__ul
-             ${open ? 'ReactA11ySelect__ul--open' : 'ReactA11ySelect__ul--closed'}`}
+          className="ReactA11ySelect__ul"
           aria-hidden={open ? undefined : true}
           aria-activedescendant={highlightedId}
         >

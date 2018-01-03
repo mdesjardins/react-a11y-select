@@ -8,21 +8,18 @@ export const OptionWrapper = (props) => {
           optionKey, label, value, optionId, disabled, highlightedRef, ...others } = props
   const highlighted = optionKey === highlightedKey
   const selected = optionKey === selectedKey
-  const classes =
-    `${highlighted ? 'ReactA11ySelect__ul__li--highlighted' : ''}
-     ${selected ? 'ReactA11ySelect__ul__li--selected' : 'ReactA11ySelect__ul__li--unselected'}
-     ${disabled ? 'ReactA11ySelect__ul__li--disabled' : ''}`
   const ariaLabel = label || value
   return (
     <li
       id={optionId}
-      className={`ReactA11ySelect__ul__li ${classes}`}
+      className="ReactA11ySelect__ul__li"
+      tabIndex={highlighted ? "0" : "-1"}
+      role="menuitemradio"
       aria-checked={selected ? true : undefined}
       aria-disabled={disabled ? true : undefined}
       aria-label={ariaLabel}
-      tabIndex={highlighted ? "0" : "-1"}
-      role="menuitemradio"
       ref={(e) => onOptionWrapperRef(e)}
+      disabled={disabled ? true : undefined}
       onMouseOver={disabled ? undefined : onMouseOver}
       onClick={disabled ? undefined : onClick}
       {...others}

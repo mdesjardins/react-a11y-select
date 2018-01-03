@@ -25,7 +25,7 @@
   cursor: pointer;
 }
 
-.ReactA11ySelect__button--open {
+.ReactA11ySelect__button[aria-expanded=true] {
   background-color: var(--border-color);
   border: 1px solid var(--border-color);
   border-radius: 0.25rem;
@@ -55,11 +55,11 @@
   z-index: 1;
 }
 
-.ReactA11ySelect__ul--open {
+.ReactA11ySelect__ul:not([aria-hidden=true]) {
   display: block;
 }
 
-.ReactA11ySelect__ul--closed {
+.ReactA11ySelect__ul[aria-hidden=true] {
   display: none;
 }
 
@@ -75,22 +75,22 @@
   color: #111;
 }
 
-.ReactA11ySelect__ul__li--highlighted {
+.ReactA11ySelect__ul__li:focus {
   background-color: var(--highlighted-background-color);
   color: var(--highlighted-foreground-color);
 }
 
-.ReactA11ySelect__ul__li--unselected {
+.ReactA11ySelect__ul__li:not([aria-checked=true]) {
   padding-left: 1.75rem;
   padding-right: 2.25rem;
 }
 
-.ReactA11ySelect__ul__li--disabled {
+.ReactA11ySelect__ul__li[disabled] {
   filter: opacity(40%);
   padding-right: 2.25rem;
 }
 
-.ReactA11ySelect__ul__li--selected > * {
+.ReactA11ySelect__ul__li[aria-checked=true] > * {
   display: inline;
 }
 
