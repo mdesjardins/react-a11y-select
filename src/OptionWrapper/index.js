@@ -5,13 +5,13 @@ import React from 'react'
 // TODO refactor me I'm hideous!
 export const OptionWrapper = (props) => {
   const { onMouseOver, onClick, onOptionWrapperRef, selectedKey, highlightedKey, children,
-          optionKey, label, value, optionId, disabled, highlightedRef, ...others } = props
+          optionKey, label, value, disabled, highlightedRef, ...others } = props
   const highlighted = optionKey === highlightedKey
   const selected = optionKey === selectedKey
   const ariaLabel = label || value
   return (
     <li
-      id={optionId}
+      id={`react-a11y-option-${optionKey}`}
       className="ReactA11ySelect__ul__li"
       tabIndex={highlighted ? "0" : "-1"}
       role="menuitemradio"

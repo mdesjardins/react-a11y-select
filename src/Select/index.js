@@ -6,6 +6,8 @@ import PropTypes from 'prop-types'
 import uniqueId from 'lodash/uniqueId'
 import * as keycode from '../keycodes'
 
+// TODO This class is way too large. Need to break it down into
+// smaller subcomponents somehow. :-/
 export default class Select extends Component {
   static propTypes = {
     label: (props, propName, componentName) => {
@@ -176,6 +178,13 @@ export default class Select extends Component {
     this.setState({
       open
     })
+    if (!open) {
+      const { buttonId } = this.props
+      const button = document.getElementById(buttonId)
+      if (button) {
+        button.focus()
+      }
+    }
   }
 
   findOptionByValue(value) {
@@ -221,24 +230,26 @@ export default class Select extends Component {
 
   renderChildren() {
     const { highlightedKey, selectedKey } = this.state
-    return this.options.map((option) =>
-      <OptionWrapper
-        key={`optionwrapper-${option.key}`}
-        optionKey={option.key}
-        selectedKey={selectedKey}
-        optionId={`react-a11y-option-${option.key}`}
-        highlightedKey={highlightedKey}
-        label={option.props.label}
-        value={option.props.value}
-        disabled={option.props.disabled}
-        onOptionWrapperRef={this.handleOptionWrapperRef}
-        onMouseOver={(e) => this.handleOptionHover(e, option.key)}
-        onClick={(e) => this.handleOptionSelect(e, option.key)}
-        onKeyDown={(e) => this.handleKeyDown(e)}
-      >
-        {option}
-      </OptionWrapper>
-    )
+    return this.options.map((option) => {
+      const { label, value, disabled } = option.props
+      return (
+        <OptionWrapper
+          key={`optionwrapper-${option.key}`}
+          optionKey={option.key}
+          selectedKey={selectedKey}
+          highlightedKey={highlightedKey}
+          label={label}
+          value={value}
+          disabled={disabled}
+          onOptionWrapperRef={this.handleOptionWrapperRef}
+          onMouseOver={(e) => this.handleOptionHover(e, option.key)}
+          onClick={(e) => this.handleOptionSelect(e, option.key)}
+          onKeyDown={(e) => this.handleKeyDown(e)}
+        >
+          {option}
+        </OptionWrapper>
+      )
+    })
   }
 
   render() {
