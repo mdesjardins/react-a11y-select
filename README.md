@@ -5,6 +5,8 @@
 
 A customizable select/dropdown react component with a focus on accessibility (a11y) and ease of use for developers. The goal of this project is to make the component as simple to use as its native HTML counterpart, with improved flexibility of HTML formatted options, and accessibility compliance with full keyboard control.
 
+Note: this project isn't associated with the [https://github.com/reactjs/react-a11y](react-a11y) package/project - it's an unfortunate naming collision. (v_v)
+
 ## Live Demo
 http://mikedesjardins.net/react-a11y-select/
 
