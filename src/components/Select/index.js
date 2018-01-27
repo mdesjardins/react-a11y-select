@@ -4,7 +4,8 @@ import OptionWrapper from '../OptionWrapper'
 import SelectButton from '../SelectButton'
 import PropTypes from 'prop-types'
 import uniqueId from 'lodash/uniqueId'
-import * as keycode from '../keycodes'
+import * as keycode from '../../lib/keycodes'
+import { OptionCollection } from '../../lib/optionCollection'
 
 // TODO This class is way too large. Need to break it down into
 // smaller subcomponents somehow. :-/
@@ -49,9 +50,12 @@ export default class Select extends Component {
 
   componentWillMount() {
     const { children, initialValue } = this.props
-    this.options = React.Children.toArray(children).filter((child) => child.type === Option)
+    const optionComponents =
+      React.Children.toArray(children).filter((child) => child.type === Option)
+    this.options = new OptionCollection(optionComponents)
+
     if (initialValue) {
-      const initialOption = this.findOptionByValue(initialValue)
+      const initialOption = this.options.findOptionByValue(initialValue)
       if (initialOption) {
         this.setState({
           selectedKey: initialOption.key,
@@ -98,11 +102,11 @@ export default class Select extends Component {
         if (!open) {
           this.updateExpandedState(true)
         }
-        this.highlightOption(this.nextKey(highlightedKey))
+        this.highlightOption(this.options.getNextEnabledKey(highlightedKey))
         break
       }
       case keycode.UP: {
-        this.highlightOption(this.previousKey(highlightedKey))
+        this.highlightOption(this.options.getPreviousEnabledKey(highlightedKey))
         break
       }
       case keycode.ESC: {
@@ -151,7 +155,7 @@ export default class Select extends Component {
   }
 
   highlightOption(highlightedKey) {
-    const candidate = this.findOptionByKey(highlightedKey)
+    const candidate = this.options.findOptionByKey(highlightedKey)
     if (candidate.props.disabled) {
       return
     }
@@ -168,7 +172,8 @@ export default class Select extends Component {
       highlightedKey: null,
     })
 
-    const selectedValue = this.findOptionByKey(key).props.value
+    const selectedOption = this.options.findOptionByKey(key)
+    const selectedValue = selectedOption.props.value
     if (onChange) {
       onChange(selectedValue)
     }
@@ -176,7 +181,7 @@ export default class Select extends Component {
 
   updateExpandedState(open) {
     this.setState({
-      open
+      open,
     })
     if (!open) {
       const { buttonId } = this.props
@@ -187,69 +192,25 @@ export default class Select extends Component {
     }
   }
 
-  findOptionByValue(value) {
-    return this.options.find((option) => option.props.value === value)
-  }
-
-  findOptionByKey(key) {
-    return this.options.find((option) => option.key === key)
-  }
-
-  nextKey(key) {
-    const currentIndex = this.options.findIndex((option) => option.key === key)
-    const lastIndex = this.options.length - 1
-    let next
-    if (currentIndex === -1) {
-      next = this.options[0]
-    } else if (currentIndex === lastIndex) {
-      next = this.options[currentIndex]
-    } else {
-      next = this.options[currentIndex + 1]
-    }
-
-    if (next.props.disabled && currentIndex !== lastIndex) {
-      return this.nextKey(next.key)
-    }
-    return next.key
-  }
-
-  previousKey(key) {
-    const currentIndex = this.options.findIndex((option) => option.key === key)
-    let previous
-    if (currentIndex === 0) {
-      previous = this.options[0]
-    } else {
-      previous = this.options[currentIndex - 1]
-    }
-
-    if (currentIndex !== 0 && previous.props.disabled) {
-      return this.previousKey(previous.key)
-    }
-    return previous.key
-  }
-
   renderChildren() {
     const { highlightedKey, selectedKey } = this.state
-    return this.options.map((option) => {
-      const { label, value, disabled } = option.props
-      return (
-        <OptionWrapper
-          key={`optionwrapper-${option.key}`}
-          optionKey={option.key}
-          selectedKey={selectedKey}
-          highlightedKey={highlightedKey}
-          label={label}
-          value={value}
-          disabled={disabled}
-          onOptionWrapperRef={this.handleOptionWrapperRef}
-          onMouseOver={(e) => this.handleOptionHover(e, option.key)}
-          onClick={(e) => this.handleOptionSelect(e, option.key)}
-          onKeyDown={(e) => this.handleKeyDown(e)}
-        >
-          {option}
-        </OptionWrapper>
-      )
-    })
+    return this.options.allOptions().map((option) =>
+      <OptionWrapper
+        key={`optionwrapper-${option.key}`}
+        optionKey={option.key}
+        selectedKey={selectedKey}
+        highlightedKey={highlightedKey}
+        label={option.props.label}
+        value={option.props.value}
+        disabled={option.props.disabled}
+        onOptionWrapperRef={this.handleOptionWrapperRef}
+        onMouseOver={(e) => this.handleOptionHover(e, option.key)}
+        onClick={(e) => this.handleOptionSelect(e, option.key)}
+        onKeyDown={(e) => this.handleKeyDown(e)}
+      >
+        {option}
+      </OptionWrapper>
+    )
   }
 
   render() {
@@ -272,7 +233,7 @@ export default class Select extends Component {
           onClick={this.handleClick}
         >
           {!selectedKey && placeholderText}
-          {!!selectedKey && this.findOptionByKey(selectedKey).props.children}
+          {!!selectedKey && this.options.findOptionByKey(selectedKey).props.children}
         </SelectButton>
         <ul
           id={listId}

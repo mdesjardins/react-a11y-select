@@ -4,7 +4,7 @@ import { mount, shallow } from 'enzyme'
 import Select from './'
 import Option from '../Option'
 import OptionWrapper from '../OptionWrapper'
-import * as keycode from '../keycodes'
+import * as keycode from '../../lib/keycodes'
 
 describe('Select', () => {
   let component

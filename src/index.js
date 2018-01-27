@@ -1,5 +1,5 @@
-import Select from './Select'
-import Option from './Option'
+import Select from './components/Select'
+import Option from './components/Option'
 
 export {
   Select,
