@@ -3,7 +3,10 @@
 [![Travis][build-badge]][build]
 [![npm package][npm-badge]][npm]
 
-A customizable select/dropdown react component with a focus on accessibility (a11y) and ease of use for developers. The goal of this project is to make the component as simple to use as its native HTML counterpart, with improved flexibility of HTML formatted options, and accessibility compliance with full keyboard control.
+A customizable select/dropdown react component with a focus on accessibility (a11y) and ease of use for developers. The goals of this project are:
+* Simplicity. The component should be as simple to use as its native HTML counterpart
+* Accessibility. The component should have accessibility compliance with full keyboard control.
+* Minimal styling.
 
 Note: this project isn't associated with the [https://github.com/reactjs/react-a11y](react-a11y) package/project - it's an unfortunate naming collision. (v_v)
 
@@ -20,7 +23,7 @@ npm install react-a11y-select
 Here is a very simple example for how to use the component:
 
     import { Select, Option } from 'react-a11y-select'
-    import 'react-a11y-select/styles.css'
+    import 'react-a11y-select/src/styles.css'
     ...
 
     <Select>
@@ -35,7 +38,7 @@ Here is a very simple example for how to use the component:
     </Select>
 
 
-Simple, right? This will render an unordered list styled as a dropdown/select box. Importantly, it will have all of the correct ARIA and role attributes to make it usable by screen readers, and it will respond as expected to keyboard input.
+This will render an unordered list styled as a dropdown/select box. Importantly, it will have all of the correct ARIA and role attributes to make it usable by screen readers, and it will respond as expected to keyboard input.
 
 ## Props
 The following properties are on the `<Select>` component:

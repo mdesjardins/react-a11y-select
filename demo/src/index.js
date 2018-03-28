@@ -38,35 +38,35 @@ class Demo extends Component {
             <form>
               <Select label="Test method" onChange={this.handleSelectChange}>
                 <Option value="apple">
-                  <img src="apple.png" role="presentation" alt="" />
+                  <img src="apple.png" alt="" />
                   Apple
                 </Option>
                 <Option value="cherry">
-                  <img src="cherry.png" role="presentation" alt="" />
+                  <img src="cherry.png" alt="" />
                   Cherry
                 </Option>
                 <Option value="grape">
-                  <img src="grape.png" role="presentation" alt="" />
+                  <img src="grape.png" alt="" />
                   Grape
                 </Option>
                 <Option value="lemon">
-                  <img src="lemon.png" role="presentation" alt="" />
+                  <img src="lemon.png" alt="" />
                   Lemon
                 </Option>
                 <Option value="orange">
-                  <img src="orange.png" role="presentation" alt="" />
+                  <img src="orange.png" alt="" />
                   Orange
                 </Option>
                 <Option value="peach" disabled>
-                  <img src="peach.png" role="presentation" alt="" />
+                  <img src="peach.png" alt="" />
                   Peach
                 </Option>
                 <Option value="pineapple">
-                  <img src="pineapple.png" role="presentation" alt="" />
+                  <img src="pineapple.png" alt="" />
                   Pineapple
                 </Option>
                 <Option value="watermelon">
-                  <img src="watermelon.png" role="presentation" alt="" />
+                  <img src="watermelon.png" alt="" />
                   Watermelon
                 </Option>
               </Select>
@@ -82,35 +82,35 @@ class Demo extends Component {
             {`
  <Select label="Test method">
    <Option value="apple">
-     <img src="apple.png" role="presentation" />
+     <img src="apple.png" alt="" />
       Apple
    </Option>
    <Option value="cherry">
-     <img src="cherry.png" role="presentation" />
+     <img src="cherry.png" alt="" />
      Cherry
    </Option>
    <Option value="grape">
-     <img src="grape.png" role="presentation" />
+     <img src="grape.png" alt="" />
      Grape
    </Option>
    <Option value="lemon">
-     <img src="lemon.png" role="presentation" />
+     <img src="lemon.png" alt="" />
      Lemon
    </Option>
    <Option value="orange">
-     <img src="orange.png" role="presentation" />
+     <img src="orange.png" alt="" />
      Orange
    </Option>
    <Option value="peach" disabled>
-     <img src="peach.png" role="presentation" />
+     <img src="peach.png" alt="" />
      Peach
    </Option>
    <Option value="pineapple">
-     <img src="pineapple.png" role="presentation" />
+     <img src="pineapple.png" alt="" />
      Pineapple
    </Option>
      <Option value="watermelon">
-       <img src="watermelon.png" role="presentation" />
+       <img src="watermelon.png" alt="" />
        Watermelon
      </Option>
  </Select>
