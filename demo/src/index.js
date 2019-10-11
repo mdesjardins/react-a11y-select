@@ -4,7 +4,6 @@ import { render } from 'react-dom'
 import { Select, Option } from '../../src'
 
 import '../../src/styles.css'
-
 class Demo extends Component {
   constructor() {
     super()
@@ -18,6 +17,7 @@ class Demo extends Component {
   }
 
   render() {
+    const { selection } = this.state;
     return (
       <div className="outer">
         <div className="banner" role="banner">
@@ -36,7 +36,7 @@ class Demo extends Component {
           <div className="main" role="main">
             <h2>Live Demo</h2>
             <form>
-              <Select label="Test method" onChange={this.handleSelectChange}>
+              <Select label="Test method" onChange={this.handleSelectChange} initialValue={selection} value={selection}>
                 <Option value="apple">
                   <img src="apple.png" alt="" />
                   Apple
@@ -79,7 +79,7 @@ class Demo extends Component {
           <div role="complementary" className="complementary">
             <h2>Code</h2>
             <pre className="language-html">
-            {`
+              {`
  <Select label="Test method">
    <Option value="apple">
      <img src="apple.png" alt="" />

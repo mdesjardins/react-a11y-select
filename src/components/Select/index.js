@@ -30,39 +30,50 @@ export default class Select extends Component {
     buttonId: PropTypes.string,
     listId: PropTypes.string,
     onChange: PropTypes.func,
+    value: PropTypes.string
   }
   static defaultProps = {
     placeholderText: 'Please choose...',
     buttonId: uniqueId('react-a11y-button-'),
     listId: uniqueId('react-a11y-list-'),
-    onChange: (_value) => {},
+    onChange: (_value) => { },
   }
 
-  constructor() {
-    super()
-    this.state = {
-      open: false,
-      selectedKey: null,
-      highlightedKey: null,
-    }
-    this.options = []
-  }
-
-  componentWillMount() {
+  constructor(props) {
+    super(props)
     const { children, initialValue } = this.props
     const optionComponents =
       React.Children.toArray(children).filter((child) => child.type === Option)
-    this.options = new OptionCollection(optionComponents)
+    const options = new OptionCollection(optionComponents)
+    let initialOptionKey;
 
     if (initialValue) {
-      const initialOption = this.options.findOptionByValue(initialValue)
+      const initialOption = options.findOptionByValue(initialValue)
       if (initialOption) {
-        this.setState({
-          selectedKey: initialOption.key,
-        })
+        initialOptionKey = initialOption.key
       }
     }
+
+    this.state = {
+      open: false,
+      selectedKey: initialOptionKey,
+      highlightedKey: null,
+      options: new OptionCollection(optionComponents)
+    }
   }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.value !== undefined) {
+      const option = prevState.options.findOptionByValue(nextProps.value);
+      if (option) {
+        return {
+          selectedKey: option.key
+        }
+      }
+    }
+    return null;
+  }
+
 
   componentDidMount() {
     document.addEventListener('mousedown', this.handleClickOutside)
@@ -91,7 +102,7 @@ export default class Select extends Component {
   }
 
   handleKeyDown = (e) => {
-    const { open, selectedKey, highlightedKey } = this.state
+    const { open, selectedKey, highlightedKey, options } = this.state
     if (e.keyCode !== keycode.TAB) {
       e.preventDefault()
       e.stopPropagation()
@@ -102,11 +113,11 @@ export default class Select extends Component {
         if (!open) {
           this.updateExpandedState(true)
         }
-        this.highlightOption(this.options.getNextEnabledKey(highlightedKey))
+        this.highlightOption(options.getNextEnabledKey(highlightedKey))
         break
       }
       case keycode.UP: {
-        this.highlightOption(this.options.getPreviousEnabledKey(highlightedKey))
+        this.highlightOption(options.getPreviousEnabledKey(highlightedKey))
         break
       }
       case keycode.ESC: {
@@ -155,7 +166,7 @@ export default class Select extends Component {
   }
 
   highlightOption(highlightedKey) {
-    const candidate = this.options.findOptionByKey(highlightedKey)
+    const candidate = this.state.options.findOptionByKey(highlightedKey)
     if (candidate.props.disabled) {
       return
     }
@@ -172,7 +183,7 @@ export default class Select extends Component {
       highlightedKey: null,
     })
 
-    const selectedOption = this.options.findOptionByKey(key)
+    const selectedOption = this.state.options.findOptionByKey(key)
     const selectedValue = selectedOption.props.value
     if (onChange) {
       onChange(selectedValue)
@@ -194,7 +205,7 @@ export default class Select extends Component {
 
   renderChildren() {
     const { highlightedKey, selectedKey } = this.state
-    return this.options.allOptions().map((option) =>
+    return this.state.options.allOptions().map((option) =>
       <OptionWrapper
         key={`optionwrapper-${option.key}`}
         optionKey={option.key}
@@ -214,10 +225,10 @@ export default class Select extends Component {
   }
 
   render() {
-    const { open, highlightedKey, selectedKey } = this.state
+    const { open, highlightedKey, selectedKey, options } = this.state
     const { listId, buttonId, placeholderText } = this.props
     const highlightedId =
-       highlightedKey ? `react-a11y-option-${highlightedKey}` : undefined
+      highlightedKey ? `react-a11y-option-${highlightedKey}` : undefined
 
     return (
       <div
@@ -233,7 +244,7 @@ export default class Select extends Component {
           onClick={this.handleClick}
         >
           {!selectedKey && placeholderText}
-          {!!selectedKey && this.options.findOptionByKey(selectedKey).props.children}
+          {!!selectedKey && options.findOptionByKey(selectedKey).props.children}
         </SelectButton>
         <ul
           id={listId}
