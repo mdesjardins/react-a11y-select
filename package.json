@@ -42,7 +42,7 @@
     "eslint-plugin-mocha": "^2.2.0",
     "eslint-plugin-react": "^4.3.0",
     "gh-pages": "1.1.0",
-    "nwb": "0.20.x",
+    "nwb": "0.25.x",
     "react": "^16.10.2",
     "react-dom": "^16.10.2"
   },
